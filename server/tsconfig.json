@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "baseUrl": "./",
+		"rootDir": "src",
+    "outDir": "build",
+    "target": "es2016",
+		"strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "lib": ["es6"],
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
+
