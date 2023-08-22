@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const index_1 = __importDefault(require("./routes/index"));
+const student_1 = __importDefault(require("./routes/student"));
 // Init
 const app = (0, express_1.default)();
 const port = 5000;
@@ -17,6 +18,7 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.static('public'));
 app.use((0, cors_1.default)({ origin: 'http://localhost:3000' }));
 app.use('/', index_1.default);
+app.use('/student', student_1.default);
 // Other
 app.listen(port, () => {
     let output = "Server is " +

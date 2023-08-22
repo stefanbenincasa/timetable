@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
 import indexRouter from './routes/index'
+import studentRouter from './routes/student'
 
 // Init
 const app: Express = express();
@@ -19,6 +20,7 @@ app.use(express.static('public'));
 app.use(cors({origin: 'http://localhost:3000'}))
 
 app.use('/', indexRouter)
+app.use('/student', studentRouter)
 
 // Other
 app.listen(port, () => {
