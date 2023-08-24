@@ -4,6 +4,7 @@ import { CustomError } from '../domain/CustomError'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import session from 'express-session'
 
 import indexRouter from './routes/index'
 import studentRouter from './routes/student'
@@ -12,12 +13,21 @@ import studentRouter from './routes/student'
 const app: Express = express();
 const port = 5000;
 
+app.set('trust proxy', 1);
+
 // Mounting
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'));
 app.use(cors({origin: 'http://localhost:3000'}))
+
+app.use(session({
+  secret: '06d2d0aa-4233-11ee-aa08-80fa5b895e5e',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true , maxAge: 900000, sameSite: true }
+}))
 
 app.use('/', indexRouter)
 app.use('/student', studentRouter)
