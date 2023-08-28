@@ -14,20 +14,26 @@ const app: Express = express();
 const port = 5000;
 
 app.set('trust proxy', 1);
+app.set('env', 'development');
 
 // Mounting
+app.use(session({
+  secret: '06d2d0aa-4233-11ee-aa08-80fa5b895e5e',
+  resave: false,
+  saveUninitialized: false,
+	cookie: { 
+		secure: app.get('env') === 'development' ? false : true,
+		maxAge: 9000,
+		sameSite: true,
+		httpOnly: true
+	}
+}))
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'));
 app.use(cors({origin: 'http://localhost:3000'}))
-
-app.use(session({
-  secret: '06d2d0aa-4233-11ee-aa08-80fa5b895e5e',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true , maxAge: 900000, sameSite: true }
-}))
 
 app.use('/', indexRouter)
 app.use('/student', studentRouter)

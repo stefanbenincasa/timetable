@@ -13,18 +13,24 @@ const student_1 = __importDefault(require("./routes/student"));
 const app = (0, express_1.default)();
 const port = 5000;
 app.set('trust proxy', 1);
+app.set('env', 'development');
 // Mounting
+app.use((0, express_session_1.default)({
+    secret: '06d2d0aa-4233-11ee-aa08-80fa5b895e5e',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: app.get('env') === 'development' ? false : true,
+        maxAge: 9000,
+        sameSite: true,
+        httpOnly: true
+    }
+}));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.static('public'));
 app.use((0, cors_1.default)({ origin: 'http://localhost:3000' }));
-app.use((0, express_session_1.default)({
-    secret: '06d2d0aa-4233-11ee-aa08-80fa5b895e5e',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true, maxAge: 900000, sameSite: true }
-}));
 app.use('/', index_1.default);
 app.use('/student', student_1.default);
 // Other
