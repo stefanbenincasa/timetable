@@ -1,20 +1,25 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express'
+import { databaseConfig } from '../config'
 import { CustomError } from '../domain/CustomError'
+import { Pool, PoolConfig } from 'pg'
 
 import path from 'path'
-import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import pgSession from 'connect-pg-simple'
 
 import indexRouter from './routes/index'
 import studentRouter from './routes/student'
 
 // Init
-const app: Express = express();
-const port = 5000;
+const port = 5000
+const pgStore = pgSession(session)
+const app: Express = express()
+const pgPool: Pool = new Pool(databaseConfig)
 
-app.set('trust proxy', 1);
-app.set('env', 'development');
+app.set('trust proxy', 1)
+app.set('env', 'development')
 
 // Mounting
 app.use(session({
@@ -26,7 +31,11 @@ app.use(session({
 		maxAge: 9000,
 		sameSite: true,
 		httpOnly: true
-	}
+	},
+	store: new pgStore({
+    pool : pgPool,                
+		createTableIfMissing: true
+  })
 }))
 
 app.use(express.json())

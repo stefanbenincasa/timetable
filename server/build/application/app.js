@@ -4,14 +4,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const config_1 = require("../config");
+const pg_1 = require("pg");
 const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_session_1 = __importDefault(require("express-session"));
+const connect_pg_simple_1 = __importDefault(require("connect-pg-simple"));
 const index_1 = __importDefault(require("./routes/index"));
 const student_1 = __importDefault(require("./routes/student"));
 // Init
-const app = (0, express_1.default)();
 const port = 5000;
+const pgStore = (0, connect_pg_simple_1.default)(express_session_1.default);
+const app = (0, express_1.default)();
+const pgPool = new pg_1.Pool(config_1.databaseConfig);
 app.set('trust proxy', 1);
 app.set('env', 'development');
 // Mounting
@@ -24,7 +29,11 @@ app.use((0, express_session_1.default)({
         maxAge: 9000,
         sameSite: true,
         httpOnly: true
-    }
+    },
+    store: new pgStore({
+        pool: pgPool,
+        createTableIfMissing: true
+    })
 }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());

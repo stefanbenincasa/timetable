@@ -3,7 +3,8 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/login', (req: Request, res: Response) => { 
+router.post('/login', (req: Request, res: Response) => { 
+	let { username, password } = req.body
 	req.session.username = 'john@example.com';
   res.json(req.session);
 });
