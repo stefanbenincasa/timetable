@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express'
-import { databaseConfig } from '../config'
+import { databaseConfig } from '../assets/config'
 import { CustomError } from '../domain/CustomError'
 import { Pool, PoolConfig } from 'pg'
 
