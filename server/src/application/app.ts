@@ -1,13 +1,15 @@
-import express, { Express, Request, Response } from 'express'
 import { databaseConfig } from '../assets/config'
 import { CustomError } from '../domain/CustomError'
-import { Pool, PoolConfig } from 'pg'
+// import { databasePool } from './helpers/connection'
+import { Pool } from 'pg'
 
-import path from 'path'
-import cors from 'cors'
+import express, { Express, Request, Response } from 'express'
+
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import pgSession from 'connect-pg-simple'
+import path from 'path'
+import cors from 'cors'
 
 import indexRouter from './routes/index'
 import studentRouter from './routes/student'
