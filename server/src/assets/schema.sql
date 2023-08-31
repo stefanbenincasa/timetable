@@ -9,7 +9,7 @@ CREATE TABLE student(
 CREATE TABLE subject(
     subject_id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    description VARCHAR(100),
+    description VARCHAR(500),
 		passing_grade INT DEFAULT 50
 );
 
