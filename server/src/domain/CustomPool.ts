@@ -1,6 +1,6 @@
 import { Pool, PoolConfig, PoolClient, QueryResult } from 'pg';
 
-export class CustomPool extends Pool {
+export default class CustomPool extends Pool {
   constructor(config?: PoolConfig) {
     super(config);
   }

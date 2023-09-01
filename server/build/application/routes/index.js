@@ -9,15 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const config_1 = require("../../assets/config");
 const express_1 = require("express");
+const pg_1 = require("pg");
 const router = (0, express_1.Router)();
+const pgPool = new pg_1.Pool(config_1.databaseConfig);
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { username, password } = req.body, authenticated = false, databasePool = req.app.get('database');
-    // Query the database
-    console.log(databasePool);
-    // const queryRes = await databasePool.queryWithParams("SELECT * FROM student;")
-    queryWithParams;
-    // console.log(queryRes.rows)
+    let { username, password } = req.body, authenticated = false;
+    const queryRes = yield pgPool.query("SELECT * FROM student WHERE $1;", [1]);
+    console.log(queryRes.rows);
     res.send();
 }));
 exports.default = router;

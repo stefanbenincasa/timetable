@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const pg_1 = require("pg");
 const config_1 = require("../assets/config");
-const CustomPool_1 = require("../domain/CustomPool");
 const express_1 = __importDefault(require("express"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_session_1 = __importDefault(require("express-session"));
@@ -16,9 +16,8 @@ const student_1 = __importDefault(require("./routes/student"));
 const port = 5000;
 const pgStore = (0, connect_pg_simple_1.default)(express_session_1.default);
 const app = (0, express_1.default)();
-const pgCustomPool = new CustomPool_1.CustomPool(config_1.databaseConfig);
+const pgPool = new pg_1.Pool(config_1.databaseConfig);
 app.set('trust proxy', 1);
-app.set('database', { pgCustomPool: pgCustomPool });
 app.set('env', 'development');
 // Mounting
 app.use((0, express_session_1.default)({
@@ -32,7 +31,7 @@ app.use((0, express_session_1.default)({
         httpOnly: true
     },
     store: new pgStore({
-        pool: pgCustomPool,
+        pool: pgPool,
         createTableIfMissing: true
     })
 }));
@@ -50,7 +49,7 @@ app.listen(port, () => {
         port;
     console.log(output);
 });
-pgCustomPool.on('error', (err, client) => {
+pgPool.on('error', (err, client) => {
     console.error('Unexpected error on database pool. Exiting application.', err);
     process.exit(-1);
 });
