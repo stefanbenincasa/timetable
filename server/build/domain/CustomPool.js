@@ -9,15 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const router = (0, express_1.Router)();
-router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { username, password } = req.body, authenticated = false, databasePool = req.app.get('database');
-    // Query the database
-    console.log(databasePool);
-    // const queryRes = await databasePool.queryWithParams("SELECT * FROM student;")
-    queryWithParams;
-    // console.log(queryRes.rows)
-    res.send();
-}));
-exports.default = router;
+exports.CustomPool = void 0;
+const pg_1 = require("pg");
+class CustomPool extends pg_1.Pool {
+    constructor(config) {
+        super(config);
+    }
+    queryWithParams(queryText, values) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const client = yield this.connect();
+            try {
+                const result = yield client.query(queryText, values);
+                client.release();
+                return result;
+            }
+            finally {
+                client.release();
+            }
+        });
+    }
+}
+exports.CustomPool = CustomPool;

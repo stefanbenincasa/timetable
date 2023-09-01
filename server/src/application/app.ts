@@ -1,6 +1,6 @@
 import { databaseConfig } from '../assets/config'
 import { CustomError } from '../domain/CustomError'
-// import { databasePool } from './helpers/connection'
+import { CustomPool } from '../domain/CustomPool'
 import { Pool } from 'pg'
 
 import express, { Express, Request, Response } from 'express'
@@ -14,13 +14,14 @@ import cors from 'cors'
 import indexRouter from './routes/index'
 import studentRouter from './routes/student'
 
-// Init
+// Initialisation
 const port = 5000
 const pgStore = pgSession(session)
 const app: Express = express()
-const pgPool: Pool = new Pool(databaseConfig)
+const pgCustomPool: CustomPool = new CustomPool(databaseConfig)
 
 app.set('trust proxy', 1)
+app.set('database', { pgCustomPool: pgCustomPool })
 app.set('env', 'development')
 
 // Mounting
@@ -35,7 +36,7 @@ app.use(session({
 		httpOnly: true
 	},
 	store: new pgStore({
-    pool : pgPool,                
+    pool : pgCustomPool,                
 		createTableIfMissing: true
   })
 }))
@@ -49,7 +50,7 @@ app.use(cors({origin: 'http://localhost:3000'}))
 app.use('/', indexRouter)
 app.use('/student', studentRouter)
 
-// Other
+// Listeners
 app.listen(port, () => {
 	let output = 
 	"Server is " +
@@ -58,6 +59,12 @@ app.listen(port, () => {
 
 	console.log(output)
 });
+
+pgCustomPool.on('error', (err, client) => {
+  console.error('Unexpected error on database pool. Exiting application.', err)
+  process.exit(-1)
+})
+
 
 // Error Handling
 app.use(function errorHandler(error: CustomError, req: Request, res: Response, next: any) {
