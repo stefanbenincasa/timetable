@@ -64,22 +64,21 @@ pgPool.on('error', (err, client) => {
   process.exit(-1)
 })
 
-
 // Error Handling
 app.use(function errorHandler(error: CustomError, req: Request, res: Response, next: any) {
 	console.log('Path: ', req.path)
 	console.error('Error: ', error)
 
-	if (error.kind === 'bad request') {
+	if (error.kind === 400) {
 		res.status(400).send(error)
 	}
-	else if(error.kind === 'unauthorized') {
+	else if(error.kind === 401) {
 		res.status(401).send(error)
 	}
-	else if(error.kind === 'not found') {
+	else if(error.kind === 404) {
 		res.status(404).send(error)
 	}
-	else if (!error.kind) {
+	else if(error.kind === 500) {
 		res.status(500).send(error)
 	}
 }) 

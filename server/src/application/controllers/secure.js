@@ -1,8 +1,9 @@
 const verifySession = (req, res, next) => {
-  if (req.session && req.session.sessionID) {
+  if (req.session && req.session.id) {
+		console.log(req.session.id)
     next();
   } else {
-    res.status(401).send('Unauthorized');
+		res.status(401).send()
   }
 };
 

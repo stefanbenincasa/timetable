@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CustomPool = void 0;
 const pg_1 = require("pg");
 class CustomPool extends pg_1.Pool {
     constructor(config) {
@@ -28,4 +29,4 @@ class CustomPool extends pg_1.Pool {
         });
     }
 }
-exports.default = CustomPool;
+exports.CustomPool = CustomPool;

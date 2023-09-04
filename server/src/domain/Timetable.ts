@@ -1,8 +1,12 @@
-class Timetable {
-	constructor() {
-	}
+import { Class } from './Class'
 
-	getTimetable(studentId: number): void {
-	}
+export class Timetable {
+	studentId: number;
+	classes: Class[];
+
+  constructor(studentId: number, classes: Class[]) {
+		this.studentId = studentId
+		this.classes = classes
+  }
 }
 
