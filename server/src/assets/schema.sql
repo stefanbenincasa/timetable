@@ -3,7 +3,8 @@ CREATE TABLE student(
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50),
     email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(50) NOT NULL 
+    password VARCHAR(50) NOT NULL,
+		CONSTRAINT unique_fullname_constraint UNIQUE(first_name, last_name)
 );
 
 CREATE TABLE subject(

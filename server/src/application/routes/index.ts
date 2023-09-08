@@ -1,16 +1,16 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express'
 
 import { databaseConfig } from '../../assets/config'
 
-import { Router } from 'express';
+import { Router } from 'express'
 import { Pool } from 'pg'
 
 import { CustomError } from '../../domain/CustomError'
 import { Timetable } from '../../domain/Timetable'
 
-import { verifySession } from '../controllers/secure';
+import { verifySession } from '../controllers/secure'
 
-const router = Router();
+const router = Router()
 const pgPool: Pool = new Pool(databaseConfig)
 
 router.post('/login', async (req: Request, res: Response) => { 

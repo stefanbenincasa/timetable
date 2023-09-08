@@ -1,7 +1,7 @@
 INSERT INTO student(first_name, last_name, email, password)
 VALUES(
-	'John', 
-	'Smith', 
+	'john', 
+	'smith', 
 	'john.smith@email.com', 
 	'qwerty'
 );
