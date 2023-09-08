@@ -1,8 +1,8 @@
 const verifySession = (req, res, next) => {
-  if (req.session && req.session.id) {
-		console.log(req.session.id)
+  if(req.session && req.session.studentId) {
+		console.log('User is authenticated.')
     next();
-  } else {
+  }else {
 		res.status(401).send()
   }
 };

@@ -23,8 +23,8 @@ router.post('/login', async (req: Request, res: Response) => {
 			if(!queryRes.rows) throw new CustomError(500)
 			student = queryRes.rows.find(row => row.email === email && row.password === password)
 			if(!student) {
-				res.status(401)
-				res.redirect('/signup')
+				res.status(401).send()
+				return
 			}
 
 			req.session.studentId = student.student_id
@@ -42,7 +42,7 @@ router.post('/login', async (req: Request, res: Response) => {
   res.send()
 }); 
 
-// Should display timetable for the current logged in, else redirect to 'login'
+// Should display timetable for the current logged in, else 401
 router.get('/', verifySession, async (req: Request, res: Response) => { 
 	let studentId = req.session.studentId, query = '', timetable: Timetable; 
 

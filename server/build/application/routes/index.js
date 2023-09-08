@@ -25,8 +25,8 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 throw new CustomError_1.CustomError(500);
             student = queryRes.rows.find(row => row.email === email && row.password === password);
             if (!student) {
-                res.status(401);
-                res.redirect('/signup');
+                res.status(401).send();
+                return;
             }
             req.session.studentId = student.student_id;
             console.log('New session ID assigned', req.session.id);
@@ -41,7 +41,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     res.send();
 }));
-// Should display timetable for the current logged in, else redirect to 'login'
+// Should display timetable for the current logged in, else 401
 router.get('/', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let studentId = req.session.studentId, query = '', timetable;
     // Get the timetable object of the current student

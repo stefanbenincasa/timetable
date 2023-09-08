@@ -26,7 +26,7 @@ app.use((0, express_session_1.default)({
     saveUninitialized: false,
     cookie: {
         secure: app.get('env') === 'development' ? false : true,
-        maxAge: 9000,
+        maxAge: 1 * 24 * 60 * 60 * 1000,
         sameSite: true,
         httpOnly: true
     },
