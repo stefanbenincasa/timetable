@@ -42,23 +42,32 @@ router.post('/login', async (req: Request, res: Response) => {
   res.send()
 }); 
 
+router.get('/logout', verifySession, async (req: Request, res: Response) => { 
+  req.session.destroy((err) => {
+    if(err) console.error(err);
+		console.log('Successful logout. Session deleted.')
+    res.send()
+  });
+});
+
 // Should display timetable for the current logged in, else 401
 router.get('/', verifySession, async (req: Request, res: Response) => { 
 	let studentId = req.session.studentId, query = '', timetable: Timetable; 
 
 	// Get the timetable object of the current student
 	query = `
-		SELECT *
+		SELECT CONCAT(s.first_name, ' ', s.last_name) AS student, sub.name, sub.description, sub.passing_grade,
+		c.class_id, c.teacher, c.location, c.date_time, c.max_students
 		FROM student s 
 		INNER JOIN timetable t ON s.student_id = t.student_id
 		INNER JOIN class c ON c.class_id = t.class_id
+		INNER JOIN subject sub ON sub.subject_id = c.subject_id
 		WHERE s.student_id = $1;
 	`
 
-	// Set the Timetable object using query response, if any
+	// Set the Timetable object using query response, if any, then send
 	const queryRes = await pgPool.query(query, [studentId])
-
-	res.send() 
+	res.json(queryRes.rows) 
 })
 
 export default router

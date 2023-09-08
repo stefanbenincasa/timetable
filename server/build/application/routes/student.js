@@ -1,17 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const secure_1 = require("../controllers/secure");
 const router = (0, express_1.Router)();
-router.post('/', (req, res) => {
-    res.send();
+// Remember to hash passwords
+router.post('/signup', secure_1.verifySession, (req, res) => {
+    let { email, password } = req.body;
+    // res.json(queryRes.rows) 
 });
-router.get('/', (req, res) => {
+router.get('/profile', (req, res) => {
     res.send('Student route');
 });
-router.put('/', (req, res) => {
+router.put('/update_account', (req, res) => {
     res.send();
 });
-router.delete('/', (req, res) => {
+router.delete('/delete_account', (req, res) => {
     res.send();
 });
 exports.default = router;
