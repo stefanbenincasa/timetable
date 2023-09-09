@@ -2,23 +2,19 @@ import express, { Express, Request, Response } from 'express';
 
 import { Router } from 'express';
 import { Student } from '../../domain/Student'
-import { Pool } from 'pg'
+import { PSQLStudentRepository } from '../../infrastructure/PSQLStudentRepository'
 
 import { verifySession } from '../controllers/secure';
-import { databaseConfig } from '../../assets/config'
+import * as studentControllers from '../controllers/student'
 
-const pgPool: Pool = new Pool(databaseConfig)
 const router = Router();
 
-// Remember to hash passwords
 router.post('/signup', verifySession, async (req: Request, res: Response) => { 
-	let { firstName, lastName, email, password } = req.body, q = '', student: Student
-	q = `INSERT INTO student(first_name, last_name, email, password) 
-	VALUES(LOWER($1), LOWER($2), $3, $4);`
+	let { firstName, lastName, email, password } = req.body
 
 	try {
-		const queryRes = await pgPool.query(q, [firstName, lastName, email, password])
-		console.log('New Student created!')
+		const newStudent = await studentControllers.insertNewStudent(new PSQLStudentRepository(), firstName, lastName, email, password)
+		console.log(`New Student Created.`, newStudent)
 	}
 	catch(error) {
 		console.error(error)
