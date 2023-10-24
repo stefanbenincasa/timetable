@@ -5,6 +5,7 @@ import { databaseConfig } from '../../assets/config'
 import { Router } from 'express'
 import { Pool } from 'pg'
 
+import { Class } from '../../domain/Class'
 import { CustomError } from '../../domain/CustomError'
 import { Timetable } from '../../domain/Timetable'
 
@@ -32,6 +33,7 @@ router.post('/login', async (req: Request, res: Response) => {
 		}
 		else {
 			console.log('Redirecting to Home Page...')
+			// Send new Response object to redirect to appropriate Client homepage
 		}
 	}
 	catch(error) {
@@ -52,7 +54,7 @@ router.get('/logout', verifySession, async (req: Request, res: Response) => {
 
 // Should display timetable for the current logged in, else 401
 router.get('/', verifySession, async (req: Request, res: Response) => { 
-	let studentId = req.session.studentId, query = '', timetable: Timetable; 
+	let studentId = req.session.studentId, query = '', timetable: Timetable, cls: Class
 
 	// Get the timetable object of the current student
 	query = `
@@ -67,6 +69,7 @@ router.get('/', verifySession, async (req: Request, res: Response) => {
 
 	// Set the Timetable object using query response, if any, then send
 	const queryRes = await pgPool.query(query, [studentId])
+	
 	res.json(queryRes.rows) 
 })
 

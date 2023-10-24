@@ -7,3 +7,8 @@ export async function insertNewStudent(studentRepository: StudentRepository, fir
 	return createdStudent
 }
 
+export async function readStudent(studentRepository: StudentRepository, studentId: number): Promise<Student> {
+	const student = await studentRepository.readStudent(studentId)
+	return student 
+}
+

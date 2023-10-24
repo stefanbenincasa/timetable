@@ -43,7 +43,7 @@ app.use(session({
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
-app.use(express.static('public'));
+app.use(express.static('public'))
 app.use(cors({origin: 'http://localhost:3000'}))
 
 app.use('/', indexRouter)

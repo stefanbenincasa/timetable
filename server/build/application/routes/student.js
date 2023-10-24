@@ -33,6 +33,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const CustomError_1 = require("../../domain/CustomError");
 const PSQLStudentRepository_1 = require("../../infrastructure/PSQLStudentRepository");
 const secure_1 = require("../controllers/secure");
 const studentControllers = __importStar(require("../controllers/student"));
@@ -41,7 +42,6 @@ router.post('/signup', secure_1.verifySession, (req, res) => __awaiter(void 0, v
     let { firstName, lastName, email, password } = req.body;
     try {
         const newStudent = yield studentControllers.insertNewStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), firstName, lastName, email, password);
-        console.log(`New Student Created.`, newStudent);
     }
     catch (error) {
         console.error(error);
@@ -49,9 +49,22 @@ router.post('/signup', secure_1.verifySession, (req, res) => __awaiter(void 0, v
     }
     res.send();
 }));
-router.get('/profile', (req, res) => {
-    res.send('Student route');
-});
+router.get('/profile', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (req.session.studentId) {
+            const student = yield studentControllers.readStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), req.session.studentId);
+            res.json(student);
+        }
+        else {
+            throw new CustomError_1.CustomError(500);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+    res.send();
+}));
 router.put('/update_account', (req, res) => {
     res.send();
 });

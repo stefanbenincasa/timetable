@@ -33,6 +33,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         else {
             console.log('Redirecting to Home Page...');
+            // Send new Response object to redirect to appropriate Client homepage
         }
     }
     catch (error) {
@@ -51,7 +52,7 @@ router.get('/logout', secure_1.verifySession, (req, res) => __awaiter(void 0, vo
 }));
 // Should display timetable for the current logged in, else 401
 router.get('/', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let studentId = req.session.studentId, query = '', timetable;
+    let studentId = req.session.studentId, query = '', timetable, cls;
     // Get the timetable object of the current student
     query = `
 		SELECT CONCAT(s.first_name, ' ', s.last_name) AS student, sub.name, sub.description, sub.passing_grade,

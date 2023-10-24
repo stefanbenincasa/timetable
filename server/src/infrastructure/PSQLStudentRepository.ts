@@ -15,16 +15,29 @@ export class PSQLStudentRepository implements StudentRepository {
 		)
 
 		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
-		const newStudent = new Student(
-			queryRes.rows[0].student_id,
-			queryRes.rows[0].first_name,
-			queryRes.rows[0].last_name,
-			queryRes.rows[0].email,
-			queryRes.rows[0].password
-		)
-
 		console.log('New Student created!')
+		const newStudent = new Student(
+		queryRes.rows[0].student_id, 
+		queryRes.rows[0].first_name, 
+		queryRes.rows[0].last_name, 
+		queryRes.rows[0].email,
+		queryRes.rows[0].password)
+
 		return newStudent
+	}
+	async readStudent(studentId: number): Promise<Student> {
+		const queryRes = await pgPool.query('SELECT * FROM student WHERE student_id = $1;', [studentId])
+
+		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
+		console.log('Student found. Returning to Client...')
+		const student = new Student(
+		queryRes.rows[0].student_id, 
+		queryRes.rows[0].first_name, 
+		queryRes.rows[0].last_name, 
+		queryRes.rows[0].email,
+		queryRes.rows[0].password)
+
+		return student 
 	}
 }
 
