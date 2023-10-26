@@ -38,8 +38,6 @@ router.get('/profile', verifySession, async (req: Request, res: Response) => {
 		console.error(error)
 		res.sendStatus(500)
 	}
-
-	res.send()
 });
 
 router.put('/update_account', (req: Request, res: Response) => { 

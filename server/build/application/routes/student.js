@@ -63,7 +63,6 @@ router.get('/profile', secure_1.verifySession, (req, res) => __awaiter(void 0, v
         console.error(error);
         res.sendStatus(500);
     }
-    res.send();
 }));
 router.put('/update_account', (req, res) => {
     res.send();
