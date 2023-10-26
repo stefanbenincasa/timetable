@@ -36,5 +36,14 @@ class PSQLStudentRepository {
             return student;
         });
     }
+    deleteStudent(studentId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let queryRes = yield pgPool.query('DELETE FROM student WHERE student_id = $1;', [studentId]);
+            queryRes = yield pgPool.query('SELECT * FROM student WHERE student_id = $1;', [studentId]);
+            if (!queryRes || queryRes.rows.length > 0)
+                throw new CustomError_1.CustomError(500);
+            console.log('Student deleted. Returning to Client...');
+        });
+    }
 }
 exports.PSQLStudentRepository = PSQLStudentRepository;

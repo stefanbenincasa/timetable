@@ -64,10 +64,27 @@ router.get('/profile', secure_1.verifySession, (req, res) => __awaiter(void 0, v
         res.sendStatus(500);
     }
 }));
-router.put('/update_account', (req, res) => {
+router.put('/update_account', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send();
-});
-router.delete('/delete_account', (req, res) => {
-    res.send();
-});
+}));
+router.delete('/delete_account/:delete_id', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (req.session.studentId) {
+            let sidForDeletion = req.params.delete_id;
+            if (req.session.studentId != sidForDeletion) {
+                console.log('Logged in User can not delete another User at this time.');
+                throw Error();
+            }
+            yield studentControllers.deleteStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), sidForDeletion);
+            req.session.destroy(() => res.send());
+        }
+        else {
+            throw new CustomError_1.CustomError(500);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+}));
 exports.default = router;

@@ -39,5 +39,13 @@ export class PSQLStudentRepository implements StudentRepository {
 
 		return student 
 	}
+
+	async deleteStudent(studentId: number): Promise<void> {
+		let queryRes = await pgPool.query('DELETE FROM student WHERE student_id = $1;', [studentId])
+		queryRes = await pgPool.query('SELECT * FROM student WHERE student_id = $1;', [studentId])
+
+		if(!queryRes || queryRes.rows.length > 0) throw new CustomError(500)
+		console.log('Student deleted. Returning to Client...')
+	}
 }
 

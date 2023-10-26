@@ -40,12 +40,29 @@ router.get('/profile', verifySession, async (req: Request, res: Response) => {
 	}
 });
 
-router.put('/update_account', (req: Request, res: Response) => { 
+router.put('/update_account', verifySession, async (req: Request, res: Response) => { 
 	res.send(); 
 });
 
-router.delete('/delete_account', (req: Request, res: Response) => { 
-	res.send(); 
+router.delete('/delete_account/:delete_id', verifySession, async (req: Request, res: Response) => { 
+	try {	
+		if(req.session.studentId) {
+			let sidForDeletion: any = req.params.delete_id
+			if(req.session.studentId != sidForDeletion) {
+				console.log('Logged in User can not delete another User at this time.')
+				throw Error()
+			}
+			await studentControllers.deleteStudent(new PSQLStudentRepository(), sidForDeletion)
+			req.session.destroy(() => res.send())
+		}
+		else {
+			throw new CustomError(500)
+		}
+	}
+	catch(error) {
+		console.error(error)
+		res.sendStatus(500)
+	}
 });
 
 export default router

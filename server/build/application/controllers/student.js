@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readStudent = exports.insertNewStudent = void 0;
+exports.deleteStudent = exports.readStudent = exports.insertNewStudent = void 0;
 const Student_1 = require("../../domain/Student");
 function insertNewStudent(studentRepository, firstName, lastName, email, password) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -21,8 +21,14 @@ function insertNewStudent(studentRepository, firstName, lastName, email, passwor
 exports.insertNewStudent = insertNewStudent;
 function readStudent(studentRepository, studentId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const student = yield studentRepository.readStudent(studentId);
-        return student;
+        const existingStudent = yield studentRepository.readStudent(studentId);
+        return existingStudent;
     });
 }
 exports.readStudent = readStudent;
+function deleteStudent(studentRepository, studentId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield studentRepository.deleteStudent(studentId);
+    });
+}
+exports.deleteStudent = deleteStudent;

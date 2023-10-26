@@ -3,6 +3,7 @@ const verifySession = (req, res, next) => {
 		console.log('User is authenticated.')
     next()
   }else {
+		console.log('User is NOT authenticated.')
 		res.status(401).send()
   }
 }

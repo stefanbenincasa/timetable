@@ -5,6 +5,7 @@ const verifySession = (req, res, next) => {
         next();
     }
     else {
+        console.log('User is NOT authenticated.');
         res.status(401).send();
     }
 };
