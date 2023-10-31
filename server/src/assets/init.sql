@@ -1,4 +1,4 @@
-INSERT INTO student(first_name, last_name, email, password)
+INSERT INTO student(firstName, lastName, email, password)
 VALUES(
 	'john', 
 	'smith', 
@@ -6,32 +6,32 @@ VALUES(
 	'qwerty'
 );
 
-INSERT INTO subject(name, description, passing_grade)
+INSERT INTO subject(name, description, passingGrade)
 VALUES(
 	'Introductory Programming', 
 	'An introductory course to programming on simple control structures.', 
 	60
 );
-INSERT INTO subject(name, description, passing_grade)
+INSERT INTO subject(name, description, passingGrade)
 VALUES(
 	'Systems Design', 
 	'Discover the use of systems language including UML and MHL', 
 	70
 );
-INSERT INTO subject(name, description, passing_grade)
+INSERT INTO subject(name, description, passingGrade)
 VALUES(
 	'Electronics 101', 
 	'Delve into the essentials of electricity using resistance, current, and voltage, for the building a basic circuits', 
 	70
 );
-INSERT INTO subject(name, description, passing_grade)
+INSERT INTO subject(name, description, passingGrade)
 VALUES(
 	'Entrepreneurship Today', 
 	'Utilise modern business techniques to run a project tech startup with limited capital, guided by industry exprerts', 
 	65
 );
 
-INSERT INTO class(teacher, location, date_time, max_students, subject_id)
+INSERT INTO class(teacher, location, dateTime, maxStudents, subjectId)
 VALUES(
 	'Dr Henry Morgan', 
 	'St Johns Hall, East Wing, Second Floor, Room 203', 
@@ -40,7 +40,7 @@ VALUES(
 	1
 );
 
-INSERT INTO class(teacher, location, date_time, max_students, subject_id)
+INSERT INTO class(teacher, location, dateTime, maxStudents, subjectId)
 VALUES(
 	'Mr Michael Williams', 
 	'John T. Edwards Building, Third Floor, Room 307', 
@@ -48,7 +48,7 @@ VALUES(
 	50, 
 	1
 );
-INSERT INTO class(teacher, location, date_time, max_students, subject_id)
+INSERT INTO class(teacher, location, dateTime, maxStudents, subjectId)
 VALUES(
 	'Dr John Roberts', 
 	'John T. Edwards Building, Second Floor, Room 203', 
@@ -56,7 +56,7 @@ VALUES(
 	70, 
 	2
 );
-INSERT INTO class(teacher, location, date_time, max_students, subject_id)
+INSERT INTO class(teacher, location, dateTime, maxStudents, subjectId)
 VALUES(
 	'Mrs Brie Simpson', 
 	'Macey Hall, Ground Floor', 
@@ -65,5 +65,5 @@ VALUES(
 	4
 );
 
-INSERT INTO timetable(student_id, class_id) VALUES(1, 1);
-INSERT INTO timetable(student_id, class_id) VALUES(1, 3);
+INSERT INTO timetable(studentId, classId) VALUES(1, 1);
+INSERT INTO timetable(studentId, classId) VALUES(1, 3);
