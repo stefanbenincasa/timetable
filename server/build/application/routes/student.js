@@ -38,10 +38,11 @@ const PSQLStudentRepository_1 = require("../../infrastructure/PSQLStudentReposit
 const secure_1 = require("../controllers/secure");
 const studentControllers = __importStar(require("../controllers/student"));
 const router = (0, express_1.Router)();
-router.post('/signup', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { firstName, lastName, email, password } = req.body;
     try {
         const newStudent = yield studentControllers.insertNewStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), firstName, lastName, email, password);
+        // Sign in here for new Student
     }
     catch (error) {
         console.error(error);

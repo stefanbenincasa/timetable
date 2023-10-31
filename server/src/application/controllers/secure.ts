@@ -1,4 +1,6 @@
-const verifySession = (req, res, next) => {
+import express, { Express, Request, Response } from 'express';
+
+const verifySession = (req: Request, res: Response, next: any) => {
   if(req.session && req.session.studentId) {
 		console.log('User is authenticated.')
     next()
@@ -8,5 +10,5 @@ const verifySession = (req, res, next) => {
   }
 }
 
-module.exports = { verifySession }
+export { verifySession }
 

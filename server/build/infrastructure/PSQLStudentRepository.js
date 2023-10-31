@@ -18,28 +18,29 @@ const pgPool = new pg_1.Pool(config_1.databaseConfig);
 class PSQLStudentRepository {
     storeNew(student) {
         return __awaiter(this, void 0, void 0, function* () {
-            const queryRes = yield pgPool.query('INSERT INTO student(first_name, last_name, email, password) VALUES(LOWER($1), LOWER($2), $3, $4) RETURNING *;', [student.firstName, student.lastName, student.email, student.password]);
+            const queryRes = yield pgPool.query('INSERT INTO student(firstName, lastName, email, password) VALUES(LOWER($1), LOWER($2), $3, $4) RETURNING *;', [student.firstName, student.lastName, student.email, student.password]);
             if (!queryRes || queryRes.rows.length === 0)
                 throw new CustomError_1.CustomError(500);
             console.log('New Student created!');
-            const newStudent = new Student_1.Student(queryRes.rows[0].student_id, queryRes.rows[0].first_name, queryRes.rows[0].last_name, queryRes.rows[0].email, queryRes.rows[0].password);
+            const newStudent = new Student_1.Student(queryRes.rows[0].studentId, queryRes.rows[0].firstName, queryRes.rows[0].lastName, queryRes.rows[0].email, queryRes.rows[0].password);
             return newStudent;
         });
     }
     readStudent(studentId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const queryRes = yield pgPool.query('SELECT * FROM student WHERE student_id = $1;', [studentId]);
+            const queryRes = yield pgPool.query('SELECT * FROM student WHERE studentId = $1;', [studentId]);
             if (!queryRes || queryRes.rows.length === 0)
                 throw new CustomError_1.CustomError(500);
             console.log('Student found. Returning to Client...');
-            const student = new Student_1.Student(queryRes.rows[0].student_id, queryRes.rows[0].first_name, queryRes.rows[0].last_name, queryRes.rows[0].email, queryRes.rows[0].password);
+            const student = new Student_1.Student(queryRes.rows[0].studentId, queryRes.rows[0].firstName, queryRes.rows[0].lastName, queryRes.rows[0].email, queryRes.rows[0].password);
             return student;
         });
     }
+    // async updateStudent(studentId: number, columns: any[]): Promise<Student> {}
     deleteStudent(studentId) {
         return __awaiter(this, void 0, void 0, function* () {
-            let queryRes = yield pgPool.query('DELETE FROM student WHERE student_id = $1;', [studentId]);
-            queryRes = yield pgPool.query('SELECT * FROM student WHERE student_id = $1;', [studentId]);
+            let queryRes = yield pgPool.query('DELETE FROM student WHERE studentId = $1;', [studentId]);
+            queryRes = yield pgPool.query('SELECT * FROM student WHERE studentId = $1;', [studentId]);
             if (!queryRes || queryRes.rows.length > 0)
                 throw new CustomError_1.CustomError(500);
             console.log('Student deleted. Returning to Client...');

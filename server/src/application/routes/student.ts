@@ -10,11 +10,12 @@ import * as studentControllers from '../controllers/student'
 
 const router = Router();
 
-router.post('/signup', verifySession, async (req: Request, res: Response) => { 
+router.post('/signup', async (req: Request, res: Response) => { 
 	let { firstName, lastName, email, password } = req.body
 
 	try {
 		const newStudent: Student = await studentControllers.insertNewStudent(new PSQLStudentRepository(), firstName, lastName, email, password)
+		// Sign in here for new Student
 	}
 	catch(error) {
 		console.error(error)
