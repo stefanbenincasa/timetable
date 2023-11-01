@@ -11,10 +11,10 @@ import * as studentControllers from '../controllers/student'
 const router = Router();
 
 router.post('/signup', async (req: Request, res: Response) => { 
-	let { firstName, lastName, email, password } = req.body
+	let { firstName, lastName, email, password } = req.body, newStudent: Student
 
 	try {
-		const newStudent: Student = await studentControllers.insertNewStudent(new PSQLStudentRepository(), firstName, lastName, email, password)
+		newStudent = await studentControllers.insertNewStudent(new PSQLStudentRepository(), firstName, lastName, email, password)
 		// Sign in here for new Student
 	}
 	catch(error) {
@@ -26,13 +26,15 @@ router.post('/signup', async (req: Request, res: Response) => {
 });
 
 router.get('/profile', verifySession, async (req: Request, res: Response) => { 
+	let student: Student
+	
 	try {	
-		if(req.session.studentId) {
-			const student: Student = await studentControllers.readStudent(new PSQLStudentRepository(), req.session.studentId)
+		if(req.session.studentId) { // Narrowing for Student controller function
+			student = await studentControllers.readStudentById(new PSQLStudentRepository(), req.session.studentId)
 			res.json(student)
 		}
 		else {
-			throw new CustomError(500)
+			throw new Error()
 		}
 	}
 	catch(error) {

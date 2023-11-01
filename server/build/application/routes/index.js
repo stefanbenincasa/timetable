@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,29 +35,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("../../assets/config");
 const express_1 = require("express");
 const pg_1 = require("pg");
-const CustomError_1 = require("../../domain/CustomError");
+const PSQLStudentRepository_1 = require("../../infrastructure/PSQLStudentRepository");
 const secure_1 = require("../controllers/secure");
+const studentControllers = __importStar(require("../controllers/student"));
 const router = (0, express_1.Router)();
 const pgPool = new pg_1.Pool(config_1.databaseConfig);
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { email, password } = req.body, student;
     try {
         if (!req.session.studentId) {
-            const queryRes = yield pgPool.query('SELECT student_id, first_name, last_name, email, password FROM student WHERE email = $1 AND password = $2;', [email, password]);
-            if (!queryRes.rows)
-                throw new CustomError_1.CustomError(500);
-            student = queryRes.rows.find(row => row.email === email && row.password === password);
+            student = yield studentControllers.readStudentByEmailPassword(new PSQLStudentRepository_1.PSQLStudentRepository(), email, password);
             if (!student) {
                 res.status(401).send();
                 return;
             }
-            console.log(student);
-            req.session.studentId = student.student_id;
+            req.session.studentId = student.studentId;
             console.log('New session ID assigned', req.session.id);
         }
         else {
             console.log('Redirecting to Home Page...');
-            // Send new Response object to redirect to appropriate Client homepage
         }
     }
     catch (error) {
@@ -50,22 +69,5 @@ router.get('/logout', secure_1.verifySession, (req, res) => __awaiter(void 0, vo
         console.log('Successful logout. Session deleted.');
         res.send();
     });
-}));
-// Should display timetable for the current logged in, else 401
-router.get('/', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let studentId = req.session.studentId, query = '', timetable, cls;
-    // Get the timetable object of the current student
-    query = `
-		SELECT CONCAT(s.first_name, ' ', s.last_name) AS student, sub.name, sub.description, sub.passing_grade,
-		c.class_id, c.teacher, c.location, c.date_time, c.max_students
-		FROM student s 
-		INNER JOIN timetable t ON s.student_id = t.student_id
-		INNER JOIN class c ON c.class_id = t.class_id
-		INNER JOIN subject sub ON sub.subject_id = c.subject_id
-		WHERE s.student_id = $1;
-	`;
-    // Set the Timetable object using query response, if any, then send
-    const queryRes = yield pgPool.query(query, [studentId]);
-    res.json(queryRes.rows);
 }));
 exports.default = router;

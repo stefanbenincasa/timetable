@@ -39,9 +39,9 @@ const secure_1 = require("../controllers/secure");
 const studentControllers = __importStar(require("../controllers/student"));
 const router = (0, express_1.Router)();
 router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { firstName, lastName, email, password } = req.body;
+    let { firstName, lastName, email, password } = req.body, newStudent;
     try {
-        const newStudent = yield studentControllers.insertNewStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), firstName, lastName, email, password);
+        newStudent = yield studentControllers.insertNewStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), firstName, lastName, email, password);
         // Sign in here for new Student
     }
     catch (error) {
@@ -51,13 +51,14 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.send();
 }));
 router.get('/profile', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let student;
     try {
-        if (req.session.studentId) {
-            const student = yield studentControllers.readStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), req.session.studentId);
+        if (req.session.studentId) { // Narrowing for Student controller function
+            student = yield studentControllers.readStudentById(new PSQLStudentRepository_1.PSQLStudentRepository(), req.session.studentId);
             res.json(student);
         }
         else {
-            throw new CustomError_1.CustomError(500);
+            throw new Error();
         }
     }
     catch (error) {
