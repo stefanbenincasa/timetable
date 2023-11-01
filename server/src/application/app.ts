@@ -13,6 +13,7 @@ import cors from 'cors'
 
 import indexRouter from './routes/index'
 import studentRouter from './routes/student'
+import timetableRouter from './routes/timetable'
 
 // Initialisation
 const port = 5000
@@ -48,6 +49,7 @@ app.use(cors({origin: 'http://localhost:3000'}))
 
 app.use('/', indexRouter)
 app.use('/student', studentRouter)
+app.use('/timetable', timetableRouter)
 
 // Listeners
 app.listen(port, () => {

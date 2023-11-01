@@ -12,6 +12,7 @@ const connect_pg_simple_1 = __importDefault(require("connect-pg-simple"));
 const cors_1 = __importDefault(require("cors"));
 const index_1 = __importDefault(require("./routes/index"));
 const student_1 = __importDefault(require("./routes/student"));
+const timetable_1 = __importDefault(require("./routes/timetable"));
 // Initialisation
 const port = 5000;
 const pgStore = (0, connect_pg_simple_1.default)(express_session_1.default);
@@ -42,6 +43,7 @@ app.use(express_1.default.static('public'));
 app.use((0, cors_1.default)({ origin: 'http://localhost:3000' }));
 app.use('/', index_1.default);
 app.use('/student', student_1.default);
+app.use('/timetable', timetable_1.default);
 // Listeners
 app.listen(port, () => {
     let output = "Server is " +
