@@ -1,33 +1,33 @@
 CREATE TABLE student(
-    studentId SERIAL PRIMARY KEY,
-    firstName VARCHAR(50) NOT NULL,
-    lastName VARCHAR(50),
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(50) NOT NULL,
-	CONSTRAINT u_student_full_name UNIQUE(firstName, lastName)
+	student_id SERIAL PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50),
+	email VARCHAR(100) NOT NULL UNIQUE,
+	password VARCHAR(50) NOT NULL,
+	CONSTRAINT u_student_full_name UNIQUE(first_name, last_name)
 );
 
 CREATE TABLE subject(
-    subjectId SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    description VARCHAR(500),
-	passingGrade INT DEFAULT 50
+	subject_id SERIAL PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	description VARCHAR(500),
+	passing_grade INT DEFAULT 50
 );
 
 CREATE TABLE class(
-    classId SERIAL PRIMARY KEY,
+	class_id SERIAL PRIMARY KEY,
 	teacher VARCHAR(100) NOT NULL,
 	location VARCHAR(100) DEFAULT 'TBA',
-	dateTime TIMESTAMP NOT NULL,
-	maxStudents INT,
-	subjectId INT,
-	FOREIGN KEY (subjectId) REFERENCES subject(subjectId) ON DELETE CASCADE
+	date_time TIMESTAMP NOT NULL,
+	max_students INT,
+	subject_id INT,
+	FOREIGN KEY (subject_id) REFERENCES subject(subject_id) ON DELETE CASCADE
 );
 
 CREATE TABLE timetable(
-	studentId INT,
-	classId INT,
-	PRIMARY KEY (studentId, classId),
-	FOREIGN KEY (studentId) REFERENCES student(studentId) ON DELETE CASCADE,
-	FOREIGN KEY (classId) REFERENCES class(classId) ON DELETE CASCADE
+	student_id INT,
+	class_id INT,
+	PRIMARY KEY (student_id, class_id),
+	FOREIGN KEY (student_id) REFERENCES student(student_id) ON DELETE CASCADE,
+	FOREIGN KEY (class_id) REFERENCES class(class_id) ON DELETE CASCADE
 );

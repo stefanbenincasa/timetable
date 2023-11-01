@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 
 const verifySession = (req: Request, res: Response, next: any) => {
+  console.log(req.session.studentId)
   if(req.session && req.session.studentId) {
 		console.log('User is authenticated.')
     next()

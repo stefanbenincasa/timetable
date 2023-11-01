@@ -20,7 +20,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     let { email, password } = req.body, student;
     try {
         if (!req.session.studentId) {
-            const queryRes = yield pgPool.query('SELECT * FROM student WHERE email = $1 AND password = $2;', [email, password]);
+            const queryRes = yield pgPool.query('SELECT student_id, first_name, last_name, email, password FROM student WHERE email = $1 AND password = $2;', [email, password]);
             if (!queryRes.rows)
                 throw new CustomError_1.CustomError(500);
             student = queryRes.rows.find(row => row.email === email && row.password === password);
@@ -28,7 +28,8 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 res.status(401).send();
                 return;
             }
-            req.session.studentId = student.studentId;
+            console.log(student);
+            req.session.studentId = student.student_id;
             console.log('New session ID assigned', req.session.id);
         }
         else {
@@ -55,13 +56,13 @@ router.get('/', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, 
     let studentId = req.session.studentId, query = '', timetable, cls;
     // Get the timetable object of the current student
     query = `
-		SELECT CONCAT(s.firstName, ' ', s.lastName) AS student, sub.name, sub.description, sub.passingGrade,
-		c.classId, c.teacher, c.location, c.dateTime, c.maxStudents
+		SELECT CONCAT(s.first_name, ' ', s.last_name) AS student, sub.name, sub.description, sub.passing_grade,
+		c.class_id, c.teacher, c.location, c.date_time, c.max_students
 		FROM student s 
-		INNER JOIN timetable t ON s.studentId = t.studentId
-		INNER JOIN class c ON c.classId = t.classId
-		INNER JOIN subject sub ON sub.subjectId = c.subjectId
-		WHERE s.studentId = $1;
+		INNER JOIN timetable t ON s.student_id = t.student_id
+		INNER JOIN class c ON c.class_id = t.class_id
+		INNER JOIN subject sub ON sub.subject_id = c.subject_id
+		WHERE s.student_id = $1;
 	`;
     // Set the Timetable object using query response, if any, then send
     const queryRes = yield pgPool.query(query, [studentId]);
