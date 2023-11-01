@@ -3,7 +3,7 @@ CREATE TABLE student(
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50),
 	email VARCHAR(100) NOT NULL UNIQUE,
-	password VARCHAR(50) NOT NULL,
+	password VARCHAR(50) NOT NULL UNIQUE,
 	CONSTRAINT u_student_full_name UNIQUE(first_name, last_name)
 );
 
