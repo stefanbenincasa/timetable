@@ -1,13 +1,7 @@
 import express, { Express, Request, Response } from 'express'
 
-import { databaseConfig } from '../../assets/config'
-
 import { Router } from 'express'
-import { Pool } from 'pg'
 
-import { Class } from '../../domain/Class'
-import { CustomError } from '../../domain/CustomError'
-import { Timetable } from '../../domain/Timetable'
 import { Student } from '../../domain/Student'
 import { PSQLStudentRepository } from '../../infrastructure/PSQLStudentRepository'
 
@@ -15,7 +9,6 @@ import { verifySession } from '../controllers/secure'
 import * as studentControllers from '../controllers/student'
 
 const router = Router()
-const pgPool: Pool = new Pool(databaseConfig)
 
 router.post('/login', async (req: Request, res: Response) => { 
 	let { email, password } = req.body, student: Student
