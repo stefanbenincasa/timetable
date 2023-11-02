@@ -46,7 +46,7 @@ router.post('/login', async (req: Request, res: Response) => {
 router.get('/logout', verifySession, async (req: Request, res: Response) => { 
   req.session.destroy((err) => {
     if(err) console.error(err);
-		console.log('Successful logout. Session deleted.')
+	console.log('Successful logout. Session deleted.')
     res.send()
   });
 });

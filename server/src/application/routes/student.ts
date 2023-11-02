@@ -15,7 +15,9 @@ router.post('/signup', async (req: Request, res: Response) => {
 
 	try {
 		newStudent = await studentControllers.insertNewStudent(new PSQLStudentRepository(), firstName, lastName, email, password)
-		// Sign in here for new Student
+		req.session.studentId = newStudent.studentId
+		console.log('New session ID assigned', req.session.id)
+		res.json(newStudent)
 	}
 	catch(error) {
 		console.error(error)

@@ -42,7 +42,9 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
     let { firstName, lastName, email, password } = req.body, newStudent;
     try {
         newStudent = yield studentControllers.insertNewStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), firstName, lastName, email, password);
-        // Sign in here for new Student
+        req.session.studentId = newStudent.studentId;
+        console.log('New session ID assigned', req.session.id);
+        res.json(newStudent);
     }
     catch (error) {
         console.error(error);
