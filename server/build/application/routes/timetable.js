@@ -32,14 +32,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const config_1 = require("../../assets/config");
 const express_1 = require("express");
-const pg_1 = require("pg");
 const PSQLTimetableRepository_1 = require("../../infrastructure/PSQLTimetableRepository");
 const secure_1 = require("../controllers/secure");
 const timetableControllers = __importStar(require("../controllers/timetable"));
 const router = (0, express_1.Router)();
-const pgPool = new pg_1.Pool(config_1.databaseConfig);
 router.get('/', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let timetable;
     try {
