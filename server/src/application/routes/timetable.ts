@@ -1,9 +1,6 @@
 import express, { Express, Request, Response } from 'express'
 
-import { databaseConfig } from '../../assets/config'
-
 import { Router } from 'express'
-import { Pool } from 'pg'
 import { Timetable } from '../../domain/Timetable'
 import { PSQLTimetableRepository } from '../../infrastructure/PSQLTimetableRepository'
 
