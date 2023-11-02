@@ -31,6 +31,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
 			req.session.studentId = student.studentId
 			console.log('New session ID assigned', req.session.id)
+			res.json(student)
 		}
 		else {
 			console.log('Redirecting to Home Page...')
@@ -40,8 +41,6 @@ router.post('/login', async (req: Request, res: Response) => {
 		console.error(error)
 		res.sendStatus(500)
 	}
-
-  res.send()
 }); 
 
 router.get('/logout', verifySession, async (req: Request, res: Response) => { 

@@ -51,6 +51,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             }
             req.session.studentId = student.studentId;
             console.log('New session ID assigned', req.session.id);
+            res.json(student);
         }
         else {
             console.log('Redirecting to Home Page...');
@@ -60,7 +61,6 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.error(error);
         res.sendStatus(500);
     }
-    res.send();
 }));
 router.get('/logout', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     req.session.destroy((err) => {
