@@ -47,7 +47,7 @@ export class PSQLStudentRepository implements StudentRepository {
 
 	async readStudentByEmailPassword(email: string, password: string): Promise<Student> {
 
-		const queryRes = await pgPool.query(`SELECT student_id, first_name, last_name, email, password FROM student WHERE student_id = $1;`, [email, password])
+		const queryRes = await pgPool.query(`SELECT student_id, first_name, last_name, email, password FROM student WHERE email = $1 AND password = $2;`, [email, password])
 
 		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
 		console.log('Student found. Returning to Client.')

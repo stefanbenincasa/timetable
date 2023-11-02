@@ -40,7 +40,7 @@ class PSQLStudentRepository {
     }
     readStudentByEmailPassword(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            const queryRes = yield pgPool.query(`SELECT student_id, first_name, last_name, email, password FROM student WHERE student_id = $1;`, [email, password]);
+            const queryRes = yield pgPool.query(`SELECT student_id, first_name, last_name, email, password FROM student WHERE email = $1 AND password = $2;`, [email, password]);
             if (!queryRes || queryRes.rows.length === 0)
                 throw new CustomError_1.CustomError(500);
             console.log('Student found. Returning to Client.');
