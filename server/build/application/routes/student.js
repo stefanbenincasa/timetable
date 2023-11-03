@@ -48,9 +48,8 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     catch (error) {
         console.error(error);
-        res.sendStatus(500);
+        throw error;
     }
-    res.send();
 }));
 router.get('/profile', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let student;
@@ -60,16 +59,28 @@ router.get('/profile', secure_1.verifySession, (req, res) => __awaiter(void 0, v
             res.json(student);
         }
         else {
-            throw new Error();
+            throw new CustomError_1.CustomError(500);
         }
     }
     catch (error) {
         console.error(error);
-        res.sendStatus(500);
+        throw error;
     }
 }));
+// Requires column extraction
 router.put('/update_account', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send();
+    try {
+        if (req.session.studentId) {
+            yield studentControllers.updateStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), req.session.studentId, { password: "3453" });
+        }
+        else {
+            throw new CustomError_1.CustomError(400);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        throw error;
+    }
 }));
 router.delete('/delete_account/:delete_id', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -77,18 +88,18 @@ router.delete('/delete_account/:delete_id', secure_1.verifySession, (req, res) =
             let sidForDeletion = req.params.delete_id;
             if (req.session.studentId != sidForDeletion) {
                 console.log('Logged in User can not delete another User at this time.');
-                throw Error();
+                throw new CustomError_1.CustomError(401);
             }
             yield studentControllers.deleteStudent(new PSQLStudentRepository_1.PSQLStudentRepository(), sidForDeletion);
             req.session.destroy(() => res.send());
         }
         else {
-            throw new CustomError_1.CustomError(500);
+            throw new CustomError_1.CustomError(400);
         }
     }
     catch (error) {
         console.error(error);
-        res.sendStatus(500);
+        throw error;
     }
 }));
 exports.default = router;

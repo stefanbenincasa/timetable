@@ -21,10 +21,8 @@ router.post('/signup', async (req: Request, res: Response) => {
 	}
 	catch(error) {
 		console.error(error)
-		res.sendStatus(500)
+		throw error
 	}
-
-  res.send()
 });
 
 router.get('/profile', verifySession, async (req: Request, res: Response) => { 
@@ -36,17 +34,29 @@ router.get('/profile', verifySession, async (req: Request, res: Response) => {
 			res.json(student)
 		}
 		else {
-			throw new Error()
+			throw new CustomError(500)
 		}
 	}
 	catch(error) {
 		console.error(error)
-		res.sendStatus(500)
+		throw error
 	}
 });
 
+// Requires column extraction
 router.put('/update_account', verifySession, async (req: Request, res: Response) => { 
-	res.send(); 
+	try {
+		if(req.session.studentId) {
+			await studentControllers.updateStudent(new PSQLStudentRepository(), req.session.studentId, { password: "3453" })
+		}
+		else {
+			throw new CustomError(400)
+		}
+	}
+	catch(error) { 
+		console.error(error)
+		throw error
+	}
 });
 
 router.delete('/delete_account/:delete_id', verifySession, async (req: Request, res: Response) => { 
@@ -55,18 +65,18 @@ router.delete('/delete_account/:delete_id', verifySession, async (req: Request, 
 			let sidForDeletion: any = req.params.delete_id
 			if(req.session.studentId != sidForDeletion) {
 				console.log('Logged in User can not delete another User at this time.')
-				throw Error()
+				throw new CustomError(401)
 			}
 			await studentControllers.deleteStudent(new PSQLStudentRepository(), sidForDeletion)
 			req.session.destroy(() => res.send())
 		}
 		else {
-			throw new CustomError(500)
+			throw new CustomError(400)
 		}
 	}
 	catch(error) {
 		console.error(error)
-		res.sendStatus(500)
+		throw error
 	}
 });
 

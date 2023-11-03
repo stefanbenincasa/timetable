@@ -17,6 +17,11 @@ export async function readStudentByEmailPassword(studentRepository: StudentRepos
 	return existingStudent 
 }
 
+export async function updateStudent(studentRepository: StudentRepository, studentId: number, keyValuesForUpdate: Object): Promise<void> {
+	const updatedStudent = await studentRepository.updateStudent(studentId, keyValuesForUpdate)
+	// return updatedStudent 
+}
+
 export async function deleteStudent(studentRepository: StudentRepository, studentId: number): Promise<void> {
 	await studentRepository.deleteStudent(studentId)
 }

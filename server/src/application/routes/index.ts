@@ -4,6 +4,7 @@ import { Router } from 'express'
 
 import { Student } from '../../domain/Student'
 import { PSQLStudentRepository } from '../../infrastructure/PSQLStudentRepository'
+import { CustomError } from '../../domain/CustomError'
 
 import { verifySession } from '../controllers/secure'
 import * as studentControllers from '../controllers/student'
@@ -18,8 +19,7 @@ router.post('/login', async (req: Request, res: Response) => {
 			student = await studentControllers.readStudentByEmailPassword(new PSQLStudentRepository(), email, password)
 
 			if(!student) {
-				res.status(401).send()
-				return
+				throw new CustomError(401)
 			}
 
 			req.session.studentId = student.studentId
@@ -27,19 +27,23 @@ router.post('/login', async (req: Request, res: Response) => {
 			res.json(student)
 		}
 		else {
-			res.send(400)
 			console.log("User in Session is already logged in! Log out first.")
+			throw new CustomError(400)
 		}
 	}
 	catch(error) {
 		console.error(error)
-		res.sendStatus(500)
+		throw error
 	}
 }); 
 
 router.get('/logout', verifySession, async (req: Request, res: Response) => { 
   req.session.destroy((err) => {
-    if(err) console.error(err);
+    if(err) {
+		console.error(err);
+		throw new CustomError(500)
+	}
+
 	console.log('Successful logout. Session deleted.')
     res.send()
   });

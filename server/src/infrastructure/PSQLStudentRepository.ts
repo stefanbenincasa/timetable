@@ -9,7 +9,7 @@ const pgPool: Pool = new Pool(databaseConfig)
 
 export class PSQLStudentRepository implements StudentRepository {
   async storeNew(student: Student): Promise<Student> {
-		const queryRes = await pgPool.query(
+		let queryRes = await pgPool.query(
 			`INSERT INTO student(first_name, last_name, email, password) VALUES(LOWER($1),
 			 LOWER($2), $3, $4) RETURNING *;`,
 			[student.firstName, student.lastName, student.email, student.password]
@@ -17,7 +17,8 @@ export class PSQLStudentRepository implements StudentRepository {
 
 		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
 		console.log('New Student created!')
-		const newStudent = new Student(
+
+		let newStudent = new Student(
 		queryRes.rows[0].student_id, 
 		queryRes.rows[0].first_name, 
 		queryRes.rows[0].last_name, 
@@ -28,14 +29,14 @@ export class PSQLStudentRepository implements StudentRepository {
 	}
 
 	async readStudentById(studentId: number): Promise<Student> {
-		const queryRes = await pgPool.query(`SELECT student_id, first_name, last_name, 
+		let queryRes = await pgPool.query(`SELECT student_id, first_name, last_name, 
 			email, password FROM student WHERE student_id = $1;`,
 			[studentId])
 
 		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
 		console.log('Student found. Returning to Client.')
 
-		const student = new Student(
+		let student = new Student(
 		queryRes.rows[0].student_id, 
 		queryRes.rows[0].first_name, 
 		queryRes.rows[0].last_name, 
@@ -46,13 +47,12 @@ export class PSQLStudentRepository implements StudentRepository {
 	}
 
 	async readStudentByEmailPassword(email: string, password: string): Promise<Student> {
-
-		const queryRes = await pgPool.query(`SELECT student_id, first_name, last_name, email, password FROM student WHERE email = $1 AND password = $2;`, [email, password])
+		let queryRes = await pgPool.query(`SELECT student_id, first_name, last_name, email, password FROM student WHERE email = $1 AND password = $2;`, [email, password])
 
 		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
 		console.log('Student found. Returning to Client.')
 
-		const student = new Student(
+		let student = new Student(
 		queryRes.rows[0].student_id, 
 		queryRes.rows[0].first_name, 
 		queryRes.rows[0].last_name, 
@@ -62,7 +62,29 @@ export class PSQLStudentRepository implements StudentRepository {
 		return student 
 	}
 
-	// async updateStudent(studentId: number, columns: any[]): Promise<Student> {}
+	async updateStudent(studentId: number, keyValuesForUpdate: Object): Promise<void> {
+		let query = "", queryRes
+
+		if(!keyValuesForUpdate) throw new CustomError(500)
+		
+		// Update and RETURN existing student
+
+		// query = `UPDATE student SET `
+		console.log(Object.keys(keyValuesForUpdate))
+		return
+
+		queryRes = await pgPool.query(query, [])
+
+		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
+		console.log('Student updated. Returning to Client.')
+
+		const student = new Student(
+		queryRes.rows[0].student_id, 
+		queryRes.rows[0].first_name, 
+		queryRes.rows[0].last_name, 
+		queryRes.rows[0].email,
+		queryRes.rows[0].password)
+	}
 
 	async deleteStudent(studentId: number): Promise<void> {
 		let queryRes = await pgPool.query('DELETE FROM student WHERE student_id = $1;', [studentId])

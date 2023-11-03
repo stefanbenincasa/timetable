@@ -12,4 +12,3 @@ const verifySession = (req: Request, res: Response, next: any) => {
 }
 
 export { verifySession }
-
