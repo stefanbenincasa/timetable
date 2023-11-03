@@ -27,7 +27,8 @@ router.post('/login', async (req: Request, res: Response) => {
 			res.json(student)
 		}
 		else {
-			console.log('Redirecting to Home Page...')
+			res.send(400)
+			console.log("User in Session is already logged in! Log out first.")
 		}
 	}
 	catch(error) {

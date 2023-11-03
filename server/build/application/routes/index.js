@@ -51,7 +51,8 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             res.json(student);
         }
         else {
-            console.log('Redirecting to Home Page...');
+            res.send(400);
+            console.log("User in Session is already logged in! Log out first.");
         }
     }
     catch (error) {
