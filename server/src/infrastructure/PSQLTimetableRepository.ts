@@ -25,7 +25,8 @@ export class PSQLTimetableRepository implements TimetableRepository {
 				s.student_id = $1;
 		`, [studentId])
 
-		classes = queryRes.rows.map(row => new Class(row.class_id, row.teacher, row.date_time, row.subject_id, row.max_students, row.location))
+		console.log(queryRes.rows)
+		classes = queryRes.rows.map(row => new Class(row.class_id, row.teacher, row.date_time, row.duration_minutes, row.subject_id, row.max_students, row.location))
 		timetable = new Timetable(studentId, classes)
 		return timetable
 	}

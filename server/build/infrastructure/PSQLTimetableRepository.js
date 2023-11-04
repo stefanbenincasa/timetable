@@ -32,7 +32,8 @@ class PSQLTimetableRepository {
 			WHERE 
 				s.student_id = $1;
 		`, [studentId]);
-            classes = queryRes.rows.map(row => new Class_1.Class(row.class_id, row.teacher, row.date_time, row.subject_id, row.max_students, row.location));
+            console.log(queryRes.rows);
+            classes = queryRes.rows.map(row => new Class_1.Class(row.class_id, row.teacher, row.date_time, row.duration_minutes, row.subject_id, row.max_students, row.location));
             timetable = new Timetable_1.Timetable(studentId, classes);
             return timetable;
         });
