@@ -2,10 +2,10 @@ server/node_modules
 server/src/config.js
 
 client/node_modules
-client/.pnp
-client/.pnp.js
 client/coverage
 client/build
+client/.pnp
+client/.pnp.js
 client/.DS_Store
 client/.env.local
 client/.env.development.local
