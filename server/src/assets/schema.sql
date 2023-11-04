@@ -19,6 +19,7 @@ CREATE TABLE class(
 	teacher VARCHAR(100) NOT NULL,
 	location VARCHAR(100) DEFAULT 'TBA',
 	date_time TIMESTAMP NOT NULL,
+	duration_minutes INT DEFAULT 30,
 	max_students INT,
 	subject_id INT,
 	FOREIGN KEY (subject_id) REFERENCES subject(subject_id) ON DELETE CASCADE
