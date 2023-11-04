@@ -62,30 +62,6 @@ export class PSQLStudentRepository implements StudentRepository {
 		return student 
 	}
 
-	async updateStudent(studentId: number, keyValuesForUpdate: Object): Promise<void> {
-		let query = "", queryRes
-
-		if(!keyValuesForUpdate) throw new CustomError(500)
-		
-		// Update and RETURN existing student
-
-		// query = `UPDATE student SET `
-		console.log(Object.keys(keyValuesForUpdate))
-		return
-
-		queryRes = await pgPool.query(query, [])
-
-		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
-		console.log('Student updated. Returning to Client.')
-
-		const student = new Student(
-		queryRes.rows[0].student_id, 
-		queryRes.rows[0].first_name, 
-		queryRes.rows[0].last_name, 
-		queryRes.rows[0].email,
-		queryRes.rows[0].password)
-	}
-
 	async deleteStudent(studentId: number): Promise<void> {
 		let queryRes = await pgPool.query('DELETE FROM student WHERE student_id = $1;', [studentId])
 		queryRes = await pgPool.query('SELECT * FROM student WHERE student_id = $1;', [studentId])
