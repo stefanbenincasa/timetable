@@ -6,7 +6,7 @@ import { GlobalProvider } from "../context/global_context"
 import '../styles/App.css';
 
 function Home() {
-  return <h2>Home</h2>;
+  return <h2 className="bg-primary">Home</h2>;
 }
 
 function App() {
@@ -14,13 +14,6 @@ function App() {
     <Router>
       <GlobalProvider>
         <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-            </ul>
-          </nav>
           <Routes>
             <Route path="/" element={<Home />}>
             </Route>
