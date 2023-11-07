@@ -2,20 +2,17 @@
 import React, { createContext, useContext, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { GlobalProvider } from "../context/global_context"
+import Timetable from "./Timetable"
 
 import '../styles/App.css';
-
-function Home() {
-  return <h2 className="bg-primary">Home</h2>;
-}
 
 function App() {
   return (
     <Router>
       <GlobalProvider>
-        <div>
+        <div className="container d-flex align-items-center justify-content-center">
           <Routes>
-            <Route path="/" element={<Home />}>
+            <Route path="/" element={<Timetable />}>
             </Route>
           </Routes>
         </div>
