@@ -10,10 +10,10 @@ function App() {
   return (
     <Router>
       <GlobalProvider>
-        <div className="container d-flex align-items-center justify-content-center">
+        <div className="p-5 m-auto container row d-flex flex-column align-items-center justify-content-center">
+          <nav className="col-3 nav d-flex justify-content-end"><a className="nav-link text-decoration-underline" href="#">Logout</a></nav>
           <Routes>
-            <Route path="/" element={<Timetable />}>
-            </Route>
+            <Route path="/" element={<Timetable />} />
           </Routes>
         </div>
       </GlobalProvider>
