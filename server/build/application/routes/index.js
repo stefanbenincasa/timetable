@@ -49,7 +49,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             }
             req.session.studentId = student.studentId;
             console.log('New session ID assigned', req.session.id);
-            res.json(student);
+            res.json({ studentId: student.studentId });
         }
         else {
             console.log("User in Session is already logged in! Log out first.");
