@@ -14,7 +14,8 @@ export class Class {
 		this.dateTime = dateTime 
 		this.durationMinutes = durationMinutes
 		this.subjectId = subjectId 
-		this.location  = location 
+
+		this.location = location 
 		this.maxStudents = maxStudents 
   }
 }
