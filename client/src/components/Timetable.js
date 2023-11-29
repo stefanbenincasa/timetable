@@ -25,10 +25,6 @@ function Timetable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/timetable`);
-        const result = await response.json();
-        console.log(result)
-        // setData(result);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
