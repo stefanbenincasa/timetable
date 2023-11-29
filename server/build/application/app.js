@@ -35,11 +35,15 @@ app.use((0, express_session_1.default)({
         createTableIfMissing: true
     })
 }));
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3000",
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+    credentials: true
+}));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.static('public'));
-app.use((0, cors_1.default)({ origin: 'http://localhost:3000' }));
 app.use('/', index_1.default);
 app.use('/timetable', timetable_1.default);
 // Listeners

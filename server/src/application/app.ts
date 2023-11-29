@@ -25,9 +25,9 @@ app.set('env', 'development')
 
 // Mounting
 app.use(session({
-  secret: '06d2d0aa-4233-11ee-aa08-80fa5b895e5e',
-  resave: false,
-  saveUninitialized: false,
+	secret: '06d2d0aa-4233-11ee-aa08-80fa5b895e5e',
+	resave: false,
+	saveUninitialized: false,
 	cookie: { 
 		secure: app.get('env') === 'development' ? false : true,
 		maxAge: 1 * 24 * 60 * 60 * 1000,
@@ -35,16 +35,24 @@ app.use(session({
 		httpOnly: true
 	},
 	store: new pgStore({
-    pool : pgPool,                
-		createTableIfMissing: true
-  })
+		pool : pgPool,                
+			createTableIfMissing: true
+		}
+	)
 }))
+
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+		credentials: true
+	})
+)
 
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))
-app.use(cors({origin: 'http://localhost:3000'}))
 
 app.use('/', indexRouter)
 app.use('/timetable', timetableRouter)
