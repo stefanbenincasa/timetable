@@ -32,8 +32,8 @@ class PSQLStudentRepository {
             let queryRes = yield pgPool.query(`SELECT student_id, first_name, last_name, 
 			email, password FROM student WHERE student_id = $1;`, [studentId]);
             if (!queryRes || queryRes.rows.length === 0)
-                throw new CustomError_1.CustomError(500);
-            console.log('Student found. Returning to Client.');
+                return null;
+            console.log('Student found. Returning Student to Client.');
             let student = new Student_1.Student(queryRes.rows[0].student_id, queryRes.rows[0].first_name, queryRes.rows[0].last_name, queryRes.rows[0].email, queryRes.rows[0].password);
             return student;
         });
@@ -42,8 +42,8 @@ class PSQLStudentRepository {
         return __awaiter(this, void 0, void 0, function* () {
             let queryRes = yield pgPool.query(`SELECT student_id, first_name, last_name, email, password FROM student WHERE email = $1 AND password = $2;`, [email, password]);
             if (!queryRes || queryRes.rows.length === 0)
-                throw new CustomError_1.CustomError(500);
-            console.log('Student found. Returning to Client.');
+                return null;
+            console.log('Student found. Returning Student to Client.');
             let student = new Student_1.Student(queryRes.rows[0].student_id, queryRes.rows[0].first_name, queryRes.rows[0].last_name, queryRes.rows[0].email, queryRes.rows[0].password);
             return student;
         });

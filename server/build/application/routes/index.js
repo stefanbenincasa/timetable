@@ -44,7 +44,8 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!req.session.studentId) {
             student = yield studentControllers.readStudentByEmailPassword(new PSQLStudentRepository_1.PSQLStudentRepository(), email, password);
             if (!student) {
-                throw new CustomError_1.CustomError(401);
+                res.status(401).send();
+                return;
             }
             req.session.studentId = student.studentId;
             console.log('New session ID assigned', req.session.id);
@@ -52,7 +53,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         else {
             console.log("User in Session is already logged in! Log out first.");
-            throw new CustomError_1.CustomError(400);
+            res.status(400).send();
         }
     }
     catch (error) {

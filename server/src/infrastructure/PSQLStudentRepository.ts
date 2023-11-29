@@ -8,7 +8,7 @@ import { databaseConfig } from '../assets/config'
 const pgPool: Pool = new Pool(databaseConfig)
 
 export class PSQLStudentRepository implements StudentRepository {
-  async storeNew(student: Student): Promise<Student> {
+	async storeNew(student: Student): Promise<Student> {
 		let queryRes = await pgPool.query(
 			`INSERT INTO student(first_name, last_name, email, password) VALUES(LOWER($1),
 			 LOWER($2), $3, $4) RETURNING *;`,
@@ -28,14 +28,14 @@ export class PSQLStudentRepository implements StudentRepository {
 		return newStudent
 	}
 
-	async readStudentById(studentId: number): Promise<Student> {
+	async readStudentById(studentId: number): Promise<Student | null> {
 		let queryRes = await pgPool.query(`SELECT student_id, first_name, last_name, 
 			email, password FROM student WHERE student_id = $1;`,
 			[studentId])
 
-		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
-		console.log('Student found. Returning to Client.')
+		if(!queryRes || queryRes.rows.length === 0) return null
 
+		console.log('Student found. Returning Student to Client.')
 		let student = new Student(
 		queryRes.rows[0].student_id, 
 		queryRes.rows[0].first_name, 
@@ -46,12 +46,12 @@ export class PSQLStudentRepository implements StudentRepository {
 		return student 
 	}
 
-	async readStudentByEmailPassword(email: string, password: string): Promise<Student> {
+	async readStudentByEmailPassword(email: string, password: string): Promise<Student | null> {
 		let queryRes = await pgPool.query(`SELECT student_id, first_name, last_name, email, password FROM student WHERE email = $1 AND password = $2;`, [email, password])
 
-		if(!queryRes || queryRes.rows.length === 0) throw new CustomError(500)
-		console.log('Student found. Returning to Client.')
+		if(!queryRes || queryRes.rows.length === 0) return null
 
+		console.log('Student found. Returning Student to Client.')
 		let student = new Student(
 		queryRes.rows[0].student_id, 
 		queryRes.rows[0].first_name, 

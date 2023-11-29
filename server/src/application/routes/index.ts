@@ -12,14 +12,15 @@ import * as studentControllers from '../controllers/student'
 const router = Router()
 
 router.post('/login', async (req: Request, res: Response) => { 
-	let { email, password } = req.body, student: Student
+	let { email, password } = req.body, student: Student | null
 
 	try {
 		if(!req.session.studentId) {
 			student = await studentControllers.readStudentByEmailPassword(new PSQLStudentRepository(), email, password)
 
 			if(!student) {
-				throw new CustomError(401)
+				res.status(401).send()
+				return
 			}
 
 			req.session.studentId = student.studentId
@@ -28,7 +29,7 @@ router.post('/login', async (req: Request, res: Response) => {
 		}
 		else {
 			console.log("User in Session is already logged in! Log out first.")
-			throw new CustomError(400)
+			res.status(400).send()
 		}
 	}
 	catch(error) {
