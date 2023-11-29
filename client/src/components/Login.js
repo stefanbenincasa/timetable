@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React, { useContext, useState, useEffect } from "react"
+import { GlobalContext, GlobalProvider } from "../context/global_context"
 import { Navigate } from "react-router-dom";
 
 function Login() {
@@ -7,8 +8,8 @@ function Login() {
     const [isFailedLogin, setIsFailedLogin] = useState(null)
     const [error, setError] = useState({ email: { classes: "", message: ""}, password: { classes: "", message: ""}, login: { classes: "", message: ""}})
 
-    // On successful login, set the global context variable with student information
-
+    const {globalContext, setGlobalContext} = useContext(GlobalContext)
+    
     const handleLogin = async function(e) {
         e.preventDefault()
         if(validateInputs()) {
@@ -25,7 +26,8 @@ function Login() {
                 const response = await fetch(`http://localhost:5000/login`, requestOptions)
                 if(response.status === 200) {
                     setIsFailedLogin(false)
-                    // Update context for credentials
+                    const data = await response.json()
+                    setGlobalContext(currentGlobalContext => ({...currentGlobalContext, session: { student: { studentId: data.studentId}}}))
                     return
                 }
 
