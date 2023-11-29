@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react"
+import { Navigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [isFailedLogin, setIsFailedLogin] = useState(false)
-    const [error, setError] = useState({ email: { classes: "", message: ""}, password: { classes: "", message: ""}})
-    
+    const [isFailedLogin, setIsFailedLogin] = useState(null)
+    const [error, setError] = useState({ email: { classes: "", message: ""}, password: { classes: "", message: ""}, login: { classes: "", message: ""}})
+
+    // On successful login, set the global context variable with student information
+
     const handleLogin = async function(e) {
         e.preventDefault()
         if(validateInputs()) {
@@ -13,37 +16,40 @@ function Login() {
                 const postData = { email: email, password: password }
                 
                 const requestOptions = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: "POST",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(postData)
                 }
                 
                 const response = await fetch(`http://localhost:5000/login`, requestOptions)
-                if(response.status !== 200) {
-                    setIsFailedLogin(true)
-                    return 
+                if(response.status === 200) {
+                    setIsFailedLogin(false)
+                    // Update context for credentials
+                    return
                 }
 
-                const data = await response.json()
-                // Handle success
+                if(response.status === 500) throw new Error("Application Error")
+                setError(currentError => ({...currentError, login: { message: "Invalid login credentials."}}))
+                setIsFailedLogin(true)
             } 
-            catch(error) {
-                alert("Error while loggin-in!")
-                console.log(error)
-                // Refresh page or provide suggestion based on response code 
+            catch(err) {
+                console.log(err)
+                setIsFailedLogin(true)
+                setError(currentError => ({...currentError, login: { message: err.message}}))
             }
         }
     }
     
     const handleEmailChange = function(e, newValue) {
         e.preventDefault()
-        setError(currentError => ( {...currentError, email: { classes: ""}} ) ) // Clear any class errors from prior submissions
+        setError(currentError => ({...currentError, email: { classes: ""}})) // Clear any class errors from prior submissions
         setEmail(newValue)
     }
     
     const handlePasswordChange = function(e, newValue) {
         e.preventDefault()
-        setError(currentError => ( {...currentError, password: { classes: ""}} ) ) // Clear any class errors from prior submissions
+        setError(currentError => ({...currentError, password: { classes: ""}})) // Clear any class errors from prior submissions
         setPassword(newValue)
     }
     
@@ -53,11 +59,11 @@ function Login() {
         let isValid = true 
 
         if(!emailRegex.test(email)) {
-            setError(currentError => ({...currentError, email: { classes: "error"}} ))
+            setError(currentError => ({...currentError, email: { classes: "error"}}))
             isValid = false
         }
         if(!passwordRegex.test(password)) {
-            setError(currentError => ({...currentError, password: { classes: "error"}} ))
+            setError(currentError => ({...currentError, password: { classes: "error"}}))
             isValid = false
         }
         
@@ -68,8 +74,10 @@ function Login() {
         <div id="Login" className="w-100 h-75 p-3 d-flex flex-column justify-content-center align-items-center rounded border">
             {
                 isFailedLogin &&
+                setTimeout(() => window.location.reload(), 3000) &&
                 <div className="d-flex flex-column justify-content-center align-items-center">
-                    <p>Invalid login credentials, reloading page...</p>
+                    <p className="text-center">{error.login.message}</p>
+                    <p className="text-center">Reloading...</p>
                     <div className="spinner-grow text-danger" role="status" style={{ fontSize: "48px"}}></div>
                 </div>
             }
@@ -108,6 +116,9 @@ function Login() {
                         <button className="btn btn-primary align-self-end" type="submit">Submit</button>
                     </fieldset>
                 </form>
+            }
+            {
+                isFailedLogin === false && <Navigate to="/" />
             }
         </div>
     )
