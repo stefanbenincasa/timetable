@@ -38,6 +38,7 @@ const CustomError_1 = require("../../domain/CustomError");
 const secure_1 = require("../controllers/secure");
 const studentControllers = __importStar(require("../controllers/student"));
 const router = (0, express_1.Router)();
+router.get('/authenticate', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.send(); }));
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { email, password } = req.body, student;
     try {

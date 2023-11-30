@@ -11,6 +11,8 @@ import * as studentControllers from '../controllers/student'
 
 const router = Router()
 
+router.get('/authenticate', verifySession, async (req: Request, res: Response) => res.send())
+
 router.post('/login', async (req: Request, res: Response) => { 
 	let { email, password } = req.body, student: Student | null
 
