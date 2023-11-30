@@ -38,7 +38,9 @@ const CustomError_1 = require("../../domain/CustomError");
 const secure_1 = require("../controllers/secure");
 const studentControllers = __importStar(require("../controllers/student"));
 const router = (0, express_1.Router)();
-router.get('/authenticate', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () { return res.send(); }));
+router.get('/authenticate', secure_1.verifySession, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.json({ studentId: req.session.studentId });
+}));
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { email, password } = req.body, student;
     try {
@@ -50,7 +52,8 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             }
             req.session.studentId = student.studentId;
             console.log('New session ID assigned', req.session.id);
-            res.json({ studentId: student.studentId });
+            // res.json({studentId: student.studentId})
+            res.send();
         }
         else {
             console.log("User in Session is already logged in! Log out first.");

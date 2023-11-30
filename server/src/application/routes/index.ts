@@ -11,7 +11,9 @@ import * as studentControllers from '../controllers/student'
 
 const router = Router()
 
-router.get('/authenticate', verifySession, async (req: Request, res: Response) => res.send())
+router.get('/authenticate', verifySession, async (req: Request, res: Response) => {
+	res.json({studentId: req.session.studentId})
+})
 
 router.post('/login', async (req: Request, res: Response) => { 
 	let { email, password } = req.body, student: Student | null
@@ -27,7 +29,8 @@ router.post('/login', async (req: Request, res: Response) => {
 
 			req.session.studentId = student.studentId;
 			console.log('New session ID assigned', req.session.id)
-			res.json({studentId: student.studentId})
+			// res.json({studentId: student.studentId})
+			res.send()
 		}
 		else {
 			console.log("User in Session is already logged in! Log out first.")
