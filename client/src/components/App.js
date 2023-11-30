@@ -9,16 +9,26 @@ import Login from "./Login"
 import '../styles/App.css';
 
 function App() {
-
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
   const { globalContext, setGlobalContext } = useContext(GlobalContext)
 
   useEffect(() => {
-    console.log(globalContext)
-  }, [globalContext])
+    async function authenticate() { 
+      const response = await fetch(`http:///localhost:5000/authenticate`, { credentials: "include" })
+      if(response.status === 200) {
+        const data = await response.json()
+        setGlobalContext(currentGlobalState => ({ ...currentGlobalState, session: { studentId: data.studentId}})) 
+        setIsLoggedIn(true)
+      }
+    }
+
+    authenticate()
+  }, [])
+
     
   return (
     <div className="p-5 m-auto container row d-flex flex-column align-items-center justify-content-center">
-      <nav className="col-3 nav d-flex justify-content-end"><a className="nav-link text-decoration-underline" href="#">Logout</a></nav>
+    { isLoggedIn && <nav className="col-3 nav d-flex justify-content-end"><a className="nav-link text-decoration-underline" href="#">Logout</a></nav> }
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Timetable />} />
