@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react"
-import { GlobalContext, GlobalProvider } from "../context/global_context"
+import React, { useState, useEffect } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
@@ -8,15 +7,6 @@ function Login() {
     const [isFailedLogin, setIsFailedLogin] = useState(null)
     const [error, setError] = useState({ email: { classes: "", message: ""}, password: { classes: "", message: ""}, login: { classes: "", message: ""}})
     
-    const { globalContext, setGlobalContext } = useContext(GlobalContext)
-
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if(globalContext.session.studentId) navigate(-1) // Redirect to previous route if already logged in
-        console.log(globalContext)
-    }, [])
-
     const handleLogin = async function(e) {
         e.preventDefault()
         if(validateInputs()) {
@@ -79,7 +69,6 @@ function Login() {
 
     return (
         <div id="Login" className="w-100 h-75 p-3 d-flex flex-column justify-content-center align-items-center rounded border">
-            <Link to="/">To Timetable</Link>
             {
                 isFailedLogin &&
                 setTimeout(() => window.location.reload(), 3000) &&

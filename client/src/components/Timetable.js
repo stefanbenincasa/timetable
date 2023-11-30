@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { GlobalContext, GlobalProvider } from "../context/global_context"
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
 const initialState = { 
@@ -20,21 +19,12 @@ const initialState = {
   ]
 }
 
-function Timetable() {
+function Timetable({isAuthenticated}) {
   const [timetable, setTimetable] = useState(initialState);
   const [array, setArray] = useState(["1", "2", "3"]);
 
-  const navigate = useNavigate()
-
-  const { globalContext, setGlobalContext } = useContext(GlobalContext)
-
-  useEffect(() => {
-    if(!globalContext.session.studentId) navigate("/login") // Redirect to login route if not already logged in
-  }, [])
-
   return (
     <div id="Timetable" className="w-100 h-100 p-3 row rounded border border-primary">
-        <Link to="/login">To Login</Link>
         <header className="h-25 col-12 d-flex justify-content-center align-items-center bg-primary text-white"><h2>Timetable</h2></header>
         <div className="h-75 p-0 col-12"> 
           { timetable.classes.map((currClass, index) => { return <p key={index}>{currClass.teacher}</p> }) }
