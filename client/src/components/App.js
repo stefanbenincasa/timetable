@@ -1,6 +1,6 @@
 
 import React, { useContext, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, useMatch } from "react-router-dom";
 import { GlobalContext, GlobalProvider } from "../context/global_context"
 
 import Timetable from "./Timetable"
@@ -23,12 +23,11 @@ function App() {
     }
 
     authenticate()
+    console.log("Test")
   }, [])
 
-    
   return (
-    <div className="p-5 m-auto container row d-flex flex-column align-items-center justify-content-center">
-    { isLoggedIn && <nav className="col-3 nav d-flex justify-content-end"><a className="nav-link text-decoration-underline" href="#">Logout</a></nav> }
+  <div className="p-5 m-auto container row d-flex flex-column align-items-center justify-content-center">
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Timetable />} />

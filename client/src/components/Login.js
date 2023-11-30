@@ -1,15 +1,22 @@
 import React, { useContext, useState, useEffect } from "react"
 import { GlobalContext, GlobalProvider } from "../context/global_context"
-import { Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isFailedLogin, setIsFailedLogin] = useState(null)
     const [error, setError] = useState({ email: { classes: "", message: ""}, password: { classes: "", message: ""}, login: { classes: "", message: ""}})
-
-    const {globalContext, setGlobalContext} = useContext(GlobalContext)
     
+    const { globalContext, setGlobalContext } = useContext(GlobalContext)
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(globalContext.session.studentId) navigate(-1) // Redirect to previous route if already logged in
+        console.log(globalContext)
+    }, [])
+
     const handleLogin = async function(e) {
         e.preventDefault()
         if(validateInputs()) {
@@ -26,8 +33,6 @@ function Login() {
                 const response = await fetch(`http://localhost:5000/login`, requestOptions)
                 if(response.status === 200) {
                     setIsFailedLogin(false)
-                    const data = await response.json()
-                    setGlobalContext(currentGlobalContext => ({...currentGlobalContext, session: { student: { studentId: data.studentId}}}))
                     return
                 }
 
@@ -74,6 +79,7 @@ function Login() {
 
     return (
         <div id="Login" className="w-100 h-75 p-3 d-flex flex-column justify-content-center align-items-center rounded border">
+            <Link to="/">To Timetable</Link>
             {
                 isFailedLogin &&
                 setTimeout(() => window.location.reload(), 3000) &&
