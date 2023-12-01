@@ -4,15 +4,6 @@ html, body, #root, .container {
   margin: 0;
   padding: 0;
 }
-
-nav {
-  position: fixed;
-  top: 12px;
-  right: 2px;
-  padding: 0 !important;
-  font-size: x-small;
-}
-
 .nav-item {
   list-style: none;
 }
