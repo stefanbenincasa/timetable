@@ -35,12 +35,16 @@ function Login() {
                     return
                 }
 
+                setEmail("")
+                setPassword("")
                 setInfo(<p>Unauthorised credentials!<br></br>Reloading...</p>)
                 setIsSuccessfulLogin(false)
                 setTimeout(() => { setIsSuccessfulLogin(null) }, 3000)
             } 
             catch(err) {
                 console.log(err)
+                setEmail("")
+                setPassword("")
                 setInfo(<p>Application error!<br></br>Reloading...</p>)
                 setIsSuccessfulLogin(false)
                 setTimeout(() => { setIsSuccessfulLogin(null) }, 3000)
