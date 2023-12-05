@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { getCookie } from '../services/secure';
 
 import Timetable from "./Timetable"
+import Loader from "./Loader";
 import Login from "./Login"
 
 import '../styles/App.css';
@@ -27,10 +28,10 @@ function App() {
   <div className="p-5 m-auto container row d-flex flex-column align-items-center justify-content-center">
 
       <Routes>
-        <Route path="/login" element={ isLoggedIn ? <Navigate to="/" /> : <Login /> } />
+        <Route path="/login" element={ isLoggedIn === false ? <Login /> : <Navigate to="/" /> } />
 
         /* Private Routes */
-        <Route path="/" element={isLoggedIn ? <Timetable /> : <Navigate to="/login" /> } />
+        <Route path="/" element={isLoggedIn === true ? <Timetable /> : <Navigate to="/login" /> } />
       </Routes>
 
     </div>
