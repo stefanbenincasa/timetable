@@ -28,7 +28,7 @@ app.use((0, express_session_1.default)({
         secure: app.get('env') === 'development' ? false : true,
         maxAge: 1 * 24 * 60 * 60 * 1000,
         sameSite: true,
-        httpOnly: true
+        httpOnly: false
     },
     store: new pgStore({
         pool: pgPool,
