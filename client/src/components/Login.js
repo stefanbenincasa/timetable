@@ -1,35 +1,21 @@
 import React, { useState, useEffect } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { isAuthenticated } from '../services/secure';
 
 import Loader from "./Loader";
 
 function Login() {
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
-    const [ classes, setClasses] = useState({email: "", password: ""})
-    const [ errorText, setErrorText ] = useState("")
-
-    // const [ status, setStatus ] 
+    const [ additionalClasses, setAdditionalClasses ] = useState({email: "", password: ""})
+    const [ info, setInfo ] = useState(<p>Authenticating...</p>)
 
     const [ isSuccessfulLogin, setIsSuccessfulLogin ] = useState(null)
-    const [ isLoggedIn, setIsLoggedIn ] = useState(null)
 
     const navigate = useNavigate()
  
-    useEffect(() => {
-        async function authenticate() {
-            const authenticated = await isAuthenticated()
-            setIsLoggedIn(authenticated.result) 
-        }
-
-        setIsSuccessfulLogin(null)
-        authenticate()
-    }, [setIsLoggedIn])
-
-    const handleLogin = async function(e) {
+    const handleLogin = async function(e, email = "", password = "") {
         e.preventDefault()
-        const inputValidity = getInputValidity()
+        const inputValidity = getInputValidity(email, password)
         if(inputValidity.email && inputValidity.password) {
             try {
                 const postData = { email: email, password: password }
@@ -43,41 +29,46 @@ function Login() {
                 
                 const response = await fetch(`http://localhost:5000/login`, requestOptions)
                 if(response.status === 200) {
+                    setInfo(<p>Login successful!<br></br>Loading Timetable...</p>)
                     setIsSuccessfulLogin(true)
+                    setTimeout(() => { navigate("/") }, 3000)
                     return
                 }
 
-                if(response.status === 500) throw new Error("Application Error")
+                setInfo(<p>Unauthorised credentials!<br></br>Reloading...</p>)
                 setIsSuccessfulLogin(false)
+                setTimeout(() => { setIsSuccessfulLogin(null) }, 3000)
             } 
             catch(err) {
                 console.log(err)
+                setInfo(<p>Application error!<br></br>Reloading...</p>)
                 setIsSuccessfulLogin(false)
+                setTimeout(() => { setIsSuccessfulLogin(null) }, 3000)
             }
         }
         else {
-            if(!inputValidity.email) console.log()
-            if(!inputValidity.password) console.log()
+            if(!inputValidity.email) setAdditionalClasses(currentClasses => ({...currentClasses, email: currentClasses.email + " error"}))
+            if(!inputValidity.password) setAdditionalClasses(currentClasses => ({...currentClasses, password: currentClasses.password + " error"}))
         }
     }
     
-    const handleEmailChange = function(e, newValue) {
+    const handleEmailChange = function(e, newValue = "", additionalClasses = "") {
         e.preventDefault()
-        const classesReplacement = classes.email.replace(/error[-\w]*[ ]*/g, " ").trim()
-        setClasses(currentClasses => ({...currentClasses, email: classesReplacement}))
+        const replacement = additionalClasses.email.replace(/error[-\w]*[ ]*/g, "").trim()
+        setAdditionalClasses(currentClasses => ({...currentClasses, email: replacement}))
         setEmail(newValue)
     }
     
-    const handlePasswordChange = function(e, newValue) {
+    const handlePasswordChange = function(e, newValue = "", additionalClasses = "") {
         e.preventDefault()
-        const classesReplacement = classes.email.replace(/error[-\w]*[ ]*/g, " ").trim()
-        setClasses(currentClasses => ({...currentClasses, password: classesReplacement}))
+        const replacement = additionalClasses.password.replace(/error[-\w]*[ ]*/g, "").trim()
+        setAdditionalClasses(currentClasses => ({...currentClasses, password: replacement}))
         setPassword(newValue)
     }
     
-    const getInputValidity = function() {
+    const getInputValidity = function(email = "", password = "") {
         const emailRegex = /^(?=.{1,75}$)[^\s@]+@[^\s@]+\.[^\s@]+$/
-        const passwordRegex = /^[a-zA-Z0-9]{1,25}$/;
+        const passwordRegex = /^[a-zA-Z0-9]{1,25}$/
         let inputValidity = { email: true, password: true }  
 
         if(!emailRegex.test(email)) {
@@ -90,18 +81,16 @@ function Login() {
         return inputValidity
     }
 
-    return (
-        <div id="Login" className="w-100 h-75 p-3 d-flex flex-column justify-content-center align-items-center rounded border">
-            { true && <Loader info={errorText} variant={"danger"} /> }
-
-            <form onSubmit={handleLogin} noValidate>
+    const getLoginForm = function(email = "", password = "", additionalClasses = {}) {
+        return (
+            <form onSubmit={e => handleLogin(e, email, password)} noValidate>
                 <fieldset className="form-group d-flex flex-column">
                     <h1 className="w-100 mb-5 text-center text-primary">Login</h1>
 
                     <label htmlFor="username">Email address</label>
-                    <input type="email" className={classes.email + " form-control mb-3"} id="username" maxLength="75" placeholder="name@example.com" onChange={(e) => handleEmailChange(e, e.target.value)} value={email} />
+                    <input type="email" className={additionalClasses?.email + " form-control mb-3"} id="username" maxLength="75" placeholder="name@example.com" onChange={e => handleEmailChange(e, e.target.value, additionalClasses)} value={email} />
                     { 
-                        classes.email.includes("error") && 
+                        additionalClasses?.email.includes("error") && 
                         <div className="mb-3 p-3 error-suggestion rounded" id="emailError">
                             Please enter a valid email address meeting the following criteria: 
                             <ul>
@@ -112,9 +101,9 @@ function Login() {
                     }
                     
                     <label htmlFor="password">Password</label>
-                    <input type="password" className={classes.password + " form-control mb-3"} id="password" maxLength="25" placeholder="********" onChange={(e) => handlePasswordChange(e, e.target.value)} value={password} />
+                    <input type="password" className={additionalClasses?.password + " form-control mb-3"} id="password" maxLength="25" placeholder="********" onChange={e => handlePasswordChange(e, e.target.value, additionalClasses)} value={password} />
                     { 
-                        classes.password.includes("error") && 
+                        additionalClasses?.password.includes("error") && 
                         <div className="mb-3 p-3 error-suggestion rounded" id="passwordError">
                             Please enter a valid password meeting the following criteria: 
                             <ul>
@@ -127,6 +116,16 @@ function Login() {
                     <button className="btn btn-primary align-self-end" type="submit">Submit</button>
                 </fieldset>
             </form>
+        )
+    }
+
+    return (
+        <div id="Login" className="w-100 h-100 p-3 d-flex flex-column justify-content-center align-items-center rounded border">
+            { 
+                ( isSuccessfulLogin === true && <Loader info={info} variant="success" /> ) || 
+                ( isSuccessfulLogin === false && <Loader info={info} variant="danger" /> ) ||
+                ( isSuccessfulLogin === null && getLoginForm(email, password, additionalClasses) )
+            }
         </div>
     )
 }
