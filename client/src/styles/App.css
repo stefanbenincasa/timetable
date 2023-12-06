@@ -4,8 +4,10 @@ html, body, #root, .container {
   margin: 0;
   padding: 0;
 }
-.nav-item {
-  list-style: none;
+
+nav {
+  position: fixed;
+  top: 14px; right: 14px;
 }
 
 .error {
@@ -19,4 +21,12 @@ html, body, #root, .container {
   border: 3px solid red !important;
   color: red !important;
   box-shadow: none !important;
+}
+
+#Timetable {
+  height: 88%;
+}
+
+#Login {
+  height: 88%;
 }

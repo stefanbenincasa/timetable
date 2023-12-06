@@ -124,7 +124,7 @@ function Login() {
     }
 
     return (
-        <div id="Login" className="w-100 h-100 p-3 d-flex flex-column justify-content-center align-items-center rounded border">
+        <div id="Login" className="w-100 p-5 row flex-column justify-content-center align-items-center rounded border">
             { 
                 ( isSuccessfulLogin === true && <Loader info={info} variant="success" /> ) || 
                 ( isSuccessfulLogin === false && <Loader info={info} variant="danger" /> ) ||

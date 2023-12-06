@@ -25,8 +25,8 @@ function Timetable() {
   const navigate = useNavigate()
 
   return (
-    <div id="Timetable" className="w-100 h-100 p-3 row rounded border">
-        <header className="h-25 col-12 d-flex justify-content-center align-items-center bg-primary text-white"><h2>Timetable</h2></header>
+    <div id="Timetable" className="w-100 p-5 row rounded border">
+        <header className="h-25 col-12 d-flex justify-content-center align-items-center rounded bg-primary text-white"><h2>Timetable</h2></header>
         <div className="h-75 p-0 col-12"> 
           { timetable.classes.map((currClass, index) => { return <p key={index}>{currClass.teacher}</p> }) }
         </div>

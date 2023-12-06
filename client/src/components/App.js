@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
-import { getCookie } from '../services/secure';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getCookie, deleteCookie } from '../services/secure';
 
 import Timetable from "./Timetable"
 import Loader from "./Loader";
@@ -13,10 +13,10 @@ function App() {
   const [ isLoggedIn, setIsLoggedIn ] = useState(null)
 
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const hasCookie = getCookie("connect.sid") ? true : false
-    if(hasCookie) {
+    if(getCookie("connect.sid")) {
         setIsLoggedIn(true)
         return
     }
@@ -24,8 +24,23 @@ function App() {
     setIsLoggedIn(false)
   }, [location])
 
+  const handleLogout = async function(e) {
+    try { 
+      const response = await fetch(`http://localhost:5000/logout`, { credentials: "include" })
+      if(response.status !== 200) throw new Error()
+      deleteCookie("connect.sid")
+      setIsLoggedIn(false)
+      navigate("/login")
+    }
+    catch (err) {
+      alert("Error while logging-out!")
+      console.log(err)
+    }
+  }
+
   return (
   <div className="p-5 m-auto container row d-flex flex-column align-items-center justify-content-center">
+      { isLoggedIn && <nav className="w-auto p-0"><button className="btn btn-secondary" style={{fontSize: "x-small"}} onClick={handleLogout}>Logout</button></nav> }
 
       <Routes>
         <Route path="/login" element={ isLoggedIn === false ? <Login /> : <Navigate to="/" /> } />
