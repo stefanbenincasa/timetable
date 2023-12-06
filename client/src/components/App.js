@@ -27,9 +27,7 @@ function App() {
   const handleLogout = async function(e) {
     try { 
       const response = await fetch(`http://localhost:5000/logout`, { credentials: "include" })
-      if(response.status !== 200) throw new Error()
       deleteCookie("connect.sid")
-      setIsLoggedIn(false)
       navigate("/login")
     }
     catch (err) {
@@ -46,7 +44,7 @@ function App() {
         <Route path="/login" element={ isLoggedIn === false ? <Login /> : <Navigate to="/" /> } />
 
         /* Private Routes */
-        <Route path="/" element={isLoggedIn === true ? <Timetable /> : <Navigate to="/login" /> } />
+        <Route path="/" element={isLoggedIn === true ? <Timetable handleLogout={handleLogout} /> : <Navigate to="/login" /> } />
       </Routes>
 
     </div>
