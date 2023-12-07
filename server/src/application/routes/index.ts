@@ -29,7 +29,6 @@ router.post('/login', async (req: Request, res: Response) => {
 
 			req.session.studentId = student.studentId;
 			console.log('New session ID assigned', req.session.id)
-			// res.json({studentId: student.studentId})
 			res.send()
 		}
 		else {
