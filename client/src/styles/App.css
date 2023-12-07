@@ -25,14 +25,14 @@ nav {
   box-shadow: none !important;
 }
 
+.Class .card {
+  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+}
+
 #Timetable {
   height: 88%;
 }
 
 #Login {
   height: 88%;
-}
-
-#Class {
-  font-size: .5rem;
 }

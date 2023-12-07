@@ -38,7 +38,7 @@ function App() {
 
   return (
   <div className="p-5 m-auto container row d-flex flex-column align-items-center justify-content-center">
-      { isLoggedIn && <nav className="w-auto p-0"><button className="btn btn-secondary" style={{fontSize: "x-small"}} onClick={handleLogout}>Logout</button></nav> }
+      { isLoggedIn && <nav className="w-auto p-0"><button className="btn bg-secondary-subtle" style={{fontSize: "x-small"}} onClick={handleLogout}>Logout</button></nav> }
 
       <Routes>
         <Route path="/login" element={ isLoggedIn === false ? <Login /> : <Navigate to="/" /> } />

@@ -22,6 +22,7 @@ import Loader from "./Loader"
 
 function Timetable({handleLogout}) {
   const [ classes, setClasses ] = useState(null)
+  const [ additionalClasses, setAdditionalClasses] = useState("")
 
   useEffect(() => {
     async function getTimetable() {
@@ -37,19 +38,29 @@ function Timetable({handleLogout}) {
 
     setTimeout(() => getTimetable(), 1500)
   }, [setClasses])
+
+  useEffect(() => {
+    console.log(additionalClasses)
+  }, [additionalClasses])
+
+  const displayScrollBar = function(e) {
+  }
+  
+  const hideScrollBar = function(e) {
+  }
   
  /*Remember to handle the NULL case; consider filler element to notify User*/
   return (
     <div id="Timetable" className="w-100 p-4 row rounded border">
         <header className="h-25 col-12 d-flex justify-content-center align-items-center rounded bg-primary text-white"><h2>Timetable</h2></header>
-        <div className={"h-75 w-100 p-0 col-6 d-flex flex-column" + (!classes ? " justify-content-center align-items-center" : "")}> 
+        <div className={"h-75 w-100 p-0 col-6 d-flex flex-column" + " " + additionalClasses + (!classes ? " justify-content-center align-items-center" : "")} onMouseEnter={displayScrollBar} onMouseOut={hideScrollBar}> 
           { 
             classes === null && <Loader /> ||
             classes.map((cls, index) => { 
               return <Class key={index} classId={cls.classId} 
               teacher={cls.teacher} dateTime={cls.dateTime} 
               durationMinutes={cls.durationMinutes} subject={cls.subject} 
-              maxStudents={cls.maxStudents} location={cls.location} isFirstClass={index === 0} /> 
+              maxStudents={cls.maxStudents} location={cls.location} isFirstClass={index === 0} isEvenClass={(index + 1) % 2 === 0} /> 
             })
           }
         </div>
