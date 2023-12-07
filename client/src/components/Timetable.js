@@ -40,12 +40,17 @@ function Timetable({handleLogout}) {
   
  /*Remember to handle the NULL case; consider filler element to notify User*/
   return (
-    <div id="Timetable" className="w-100 p-5 row rounded border">
+    <div id="Timetable" className="w-100 p-4 row rounded border">
         <header className="h-25 col-12 d-flex justify-content-center align-items-center rounded bg-primary text-white"><h2>Timetable</h2></header>
-        <div className={"h-75 p-0 col-12 d-flex flex-column" + (!classes ? " justify-content-center align-items-center" : "")}> 
+        <div className={"h-75 w-100 p-0 col-6 d-flex flex-column" + (!classes ? " justify-content-center align-items-center" : "")}> 
           { 
             classes === null && <Loader /> ||
-            classes.map((currClass, index) => { return <p key={index}>{currClass.teacher}</p> })
+            classes.map((cls, index) => { 
+              return <Class key={index} classId={cls.classId} 
+              teacher={cls.teacher} dateTime={cls.dateTime} 
+              durationMinutes={cls.durationMinutes} subject={cls.subject} 
+              maxStudents={cls.maxStudents} location={cls.location} isFirstClass={index === 0} /> 
+            })
           }
         </div>
     </div> 

@@ -3,6 +3,8 @@ html, body, #root, .container {
   width: 100vw;
   margin: 0;
   padding: 0;
+
+  box-sizing: border-box;
 }
 
 nav {
@@ -29,4 +31,8 @@ nav {
 
 #Login {
   height: 88%;
+}
+
+#Class {
+  font-size: .5rem;
 }
