@@ -16,8 +16,13 @@ html, body {
 
 nav {
   position: fixed;
-  top: 14px; right: 14px;
+  top: 21px; right: 21px;
 }
+  nav svg { 
+    height: 21px; 
+    width: 21px;
+    cursor: pointer;
+  }
 
 .error {
   border: 2px solid var(--accent-color);

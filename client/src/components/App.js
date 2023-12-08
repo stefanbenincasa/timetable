@@ -7,6 +7,8 @@ import Timetable from "./Timetable"
 import Loader from "./Loader";
 import Login from "./Login"
 
+import { ReactComponent as LogoutIcon } from "../images/log-out-outline.svg"
+
 import '../styles/App.css';
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
 
   return (
   <div id="App" className="h-100 p-3 m-auto container-fluid d-flex flex-column align-items-center justify-content-center">
-      { isLoggedIn && <nav className="w-auto p-0"><button className="btn bg-secondary-subtle" style={{fontSize: "x-small"}} onClick={handleLogout}>Logout</button></nav> }
+      { isLoggedIn && <nav className="w-auto p-0"><LogoutIcon className="text-primary" onClick={handleLogout}/></nav> }
 
       <Routes>
         <Route path="/login" element={ isLoggedIn === false ? <Login /> : <Navigate to="/" /> } />
