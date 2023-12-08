@@ -37,7 +37,7 @@ function App() {
   }
 
   return (
-  <div className="p-5 m-auto container row d-flex flex-column align-items-center justify-content-center">
+  <div id="App" className="h-100 p-3 m-auto container-fluid d-flex flex-column align-items-center justify-content-center">
       { isLoggedIn && <nav className="w-auto p-0"><button className="btn bg-secondary-subtle" style={{fontSize: "x-small"}} onClick={handleLogout}>Logout</button></nav> }
 
       <Routes>

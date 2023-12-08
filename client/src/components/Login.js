@@ -89,13 +89,13 @@ function Login() {
         return (
             <form onSubmit={e => handleLogin(e, email, password)} noValidate>
                 <fieldset className="form-group d-flex flex-column">
-                    <h1 className="w-100 mb-5 text-center text-primary">Login</h1>
+                    <h1 className="w-100 mb-4 text-center">Login</h1>
 
-                    <label htmlFor="username">Email address</label>
-                    <input type="email" className={additionalClasses?.email + " form-control mb-3"} id="username" maxLength="75" placeholder="name@example.com" onChange={e => handleEmailChange(e, e.target.value, additionalClasses)} value={email} />
+                    <label htmlFor="username" className="text-center">Email address</label>
+                    <input type="email" className={additionalClasses?.email + " form-control mb-3 text-center"} id="username" maxLength="75" placeholder="name@example.com" onChange={e => handleEmailChange(e, e.target.value, additionalClasses)} value={email} />
                     { 
                         additionalClasses?.email.includes("error") && 
-                        <div className="mb-3 p-3 error-suggestion rounded" id="emailError">
+                        <div className="mb-3 p-3 error-suggestion bg-white rounded" id="emailError">
                             Please enter a valid email address meeting the following criteria: 
                             <ul>
                                 <li>Between 1 and 75 characters in length; inclusive</li>
@@ -104,11 +104,11 @@ function Login() {
                         </div> 
                     }
                     
-                    <label htmlFor="password">Password</label>
-                    <input type="password" className={additionalClasses?.password + " form-control mb-3"} id="password" maxLength="25" placeholder="********" onChange={e => handlePasswordChange(e, e.target.value, additionalClasses)} value={password} />
+                    <label htmlFor="password" className="text-center">Password</label>
+                    <input type="password" className={additionalClasses?.password + " form-control mb-3 text-center"} id="password" maxLength="25" placeholder="********" onChange={e => handlePasswordChange(e, e.target.value, additionalClasses)} value={password} />
                     { 
                         additionalClasses?.password.includes("error") && 
-                        <div className="mb-3 p-3 error-suggestion rounded" id="passwordError">
+                        <div className="mb-3 p-3 error-suggestion bg-white rounded" id="passwordError">
                             Please enter a valid password meeting the following criteria: 
                             <ul>
                                 <li>Between 1 and 25 characters in length inclusive</li>
@@ -117,14 +117,14 @@ function Login() {
                         </div> 
                     }
                     
-                    <button className="btn btn-primary align-self-end" type="submit">Submit</button>
+                    <button className="btn btn-secondary align-self-end" type="submit">Submit</button>
                 </fieldset>
             </form>
         )
     }
 
     return (
-        <div id="Login" className="w-100 p-5 row flex-column justify-content-center align-items-center rounded border">
+        <div id="Login" className="p-4 d-flex flex-column justify-content-center align-items-center bg-primary text-white rounded border">
             { 
                 ( isSuccessfulLogin === true && <Loader info={info} variant="success" /> ) || 
                 ( isSuccessfulLogin === false && <Loader info={info} variant="danger" /> ) ||

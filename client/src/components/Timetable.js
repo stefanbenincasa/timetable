@@ -39,10 +39,6 @@ function Timetable({handleLogout}) {
     setTimeout(() => getTimetable(), 1500)
   }, [setClasses])
 
-  useEffect(() => {
-    console.log(additionalClasses)
-  }, [additionalClasses])
-
   const displayScrollBar = function(e) {
   }
   

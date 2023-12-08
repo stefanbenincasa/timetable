@@ -1,4 +1,11 @@
-html, body, #root, .container {
+:root {
+  --primary-color: #006BA6;
+  --secondary-color: #0496FF;
+  --tertiary-color: #FFBC42;
+  --accent-color: #D81159;
+}
+
+html, body {
   height: 100vh;
   width: 100vw;
   margin: 0;
@@ -13,26 +20,75 @@ nav {
 }
 
 .error {
-  border: 2px solid red !important;
-  background-color: rgb(255, 144, 144) !important;
-  color: red !important;
-  box-shadow: none !important;
+  border: 2px solid var(--accent-color);
+  background-color: var(--accent-color);
+  color: white;
+  box-shadow: none;
 }
 
 .error-suggestion {
-  border: 3px solid red !important;
-  color: red !important;
-  box-shadow: none !important;
+  border: 3px solid var(--accent-color);
+  color: var(--accent-color);
+  box-shadow: none;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border: none;
+}
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.btn-secondary { 
+  background-color: var(--secondary-color) !important;
+  border: none;
+}
+
+.text-danger {
+  color: var(--accent-color) !important;
 }
 
 .Class .card {
   border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
 }
 
+.Loader {
+}
+
+#App {
+  min-height: 100vh; /*Width set to full viewport throught .container-fluid*/
+}
+
 #Timetable {
-  height: 88%;
+  min-height: 66vh;
+  min-width: 66vw;
 }
 
 #Login {
-  height: 88%;
+  min-height: 66vh;
+  min-width: 66vw;
+}
+  #Login form { 
+    position: relative; 
+}
+
+/*Media Queries*/
+@media screen and (min-width: 0px) and (max-width: 576px) {
+  :root { font-size: 0.66rem; }
+}
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  :root { font-size: 1rem; }
+}
+@media screen and (min-width: 769px) and (max-width: 992px) {
+  :root { font-size: 1rem; }
+}
+@media screen and (min-width: 993px) and (max-width: 1200px) {
+  :root { font-size: 1rem; }
+}
+@media screen and (min-width: 1201px) {
+  :root { font-size: 1rem; }
 }
