@@ -31,8 +31,8 @@ function Timetable({handleLogout}) {
   
  /*Remember to handle the NULL case; consider filler element to notify User*/
   return (
-    <div id="Timetable" className="w-100 p-4 row rounded border">
-        <header className="h-25 col-12 d-flex justify-content-center align-items-center rounded bg-primary text-white"><h2>Timetable</h2></header>
+    <div id="Timetable" className="w-100 p-4 row rounded border border-5 border-white">
+        <header className="p-5 col-12 d-flex justify-content-center align-items-center rounded bg-primary text-white"><h2>Timetable</h2></header>
         <div className={"h-75 w-100 p-0 col-6 d-flex flex-column" + " " + additionalClasses + (!classes ? " justify-content-center align-items-center" : "")} onMouseEnter={displayScrollBar} onMouseOut={hideScrollBar}> 
           { 
             classes === null && <Loader /> ||

@@ -38,7 +38,7 @@ ion-icon {
   min-height: 100vh; /*Width set to full viewport throught .container-fluid*/
   background-image: url("../images/tim-mossholder-ShmRLyRv-S0-unsplash.jpg");
   background-size:  cover;
-  background-repeat: repeat-y;
+  background-repeat: round;
 }
   #App aside { 
     position: fixed;
@@ -47,15 +47,17 @@ ion-icon {
   }
 
 #Timetable {
-  min-height: 50vh;
-  max-height: 60vh;
-  min-width: 50vw;
-  min-width: 60vw;
+  min-height: 75vh;
+  min-width: 75vw;
+  max-height: 75vh;
+  max-width: 75vw;
 }
 
 #Login {
-  min-height: 66vh;
-  min-width: 66vw;
+  min-height: 75vh;
+  min-width: 75vw;
+  max-height: 50vh;
+  max-width: 75vw;
 }
   #Login form { 
     position: relative; 
