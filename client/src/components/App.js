@@ -7,7 +7,7 @@ import Timetable from "./Timetable"
 import Loader from "./Loader";
 import Login from "./Login"
 
-import { ReactComponent as LogoutIcon } from "../images/log-out-outline.svg"
+// import { ReactComponent as LogoutIcon } from "../images/log-out-outline.svg"
 
 import '../styles/App.css';
 
@@ -39,8 +39,13 @@ function App() {
   }
 
   return (
-  <div id="App" className="h-100 p-3 m-auto container-fluid d-flex flex-column align-items-center justify-content-center">
-      { isLoggedIn && <nav className="w-auto p-0"><LogoutIcon className="text-primary" onClick={handleLogout}/></nav> }
+  <div id="App" className="h-100 p-5 m-auto container-fluid d-flex flex-column align-items-center justify-content-center">
+      { 
+        isLoggedIn && 
+        <nav className="p-0 d-flex justify-content-center align-items-center rounded bg-primary text-white" onClick={handleLogout}>
+          <ion-icon name="log-out-outline"></ion-icon>
+        </nav> 
+      }
 
       <Routes>
         <Route path="/login" element={ isLoggedIn === false ? <Login /> : <Navigate to="/" /> } />
@@ -49,6 +54,7 @@ function App() {
         <Route path="/" element={isLoggedIn === true ? <Timetable handleLogout={handleLogout} /> : <Navigate to="/login" /> } />
       </Routes>
 
+      <aside className="text-white">Background Image Photo: by <a className="text-white" target="_blank" href="https://unsplash.com/@timmossholder?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Tim Mossholder</a></aside>
     </div>
   )
 }

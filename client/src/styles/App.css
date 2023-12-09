@@ -1,3 +1,5 @@
+/* Blocks */
+
 :root {
   --primary-color: #006BA6;
   --secondary-color: #0496FF;
@@ -15,14 +17,51 @@ html, body {
 }
 
 nav {
+  height: 2.5rem; width: 2.5rem;
   position: fixed;
   top: 21px; right: 21px;
+  box-shadow: 2px 1px 21px var(--primary-color);
+  cursor: pointer;
 }
-  nav svg { 
-    height: 21px; 
-    width: 21px;
-    cursor: pointer;
+
+ion-icon {
+  font-size: 1.5rem;
+}
+
+/* Elements */
+
+.Class .card {
+  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+}
+
+#App {
+  min-height: 100vh; /*Width set to full viewport throught .container-fluid*/
+  background-image: url("../images/tim-mossholder-ShmRLyRv-S0-unsplash.jpg");
+  background-size:  cover;
+  background-repeat: repeat-y;
+}
+  #App aside { 
+    position: fixed;
+    bottom: 21px; left: 21px;
+    font-size: 0.6rem
   }
+
+#Timetable {
+  min-height: 50vh;
+  max-height: 60vh;
+  min-width: 50vw;
+  min-width: 60vw;
+}
+
+#Login {
+  min-height: 66vh;
+  min-width: 66vw;
+}
+  #Login form { 
+    position: relative; 
+}
+
+/* Modifiers */
 
 .error {
   border: 2px solid var(--accent-color);
@@ -55,30 +94,6 @@ nav {
 
 .text-danger {
   color: var(--accent-color) !important;
-}
-
-.Class .card {
-  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
-}
-
-.Loader {
-}
-
-#App {
-  min-height: 100vh; /*Width set to full viewport throught .container-fluid*/
-}
-
-#Timetable {
-  min-height: 66vh;
-  min-width: 66vw;
-}
-
-#Login {
-  min-height: 66vh;
-  min-width: 66vw;
-}
-  #Login form { 
-    position: relative; 
 }
 
 /*Media Queries*/

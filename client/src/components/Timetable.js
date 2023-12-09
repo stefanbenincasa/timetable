@@ -4,22 +4,6 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import Class from "./Class"
 import Loader from "./Loader"
 
-/* const initialState = [
-  {
-      classId: 1,
-      teacher: "Dr Henry Morgan",
-      dateTime: "2023-06-15T03:30:00.000Z",
-      durationMinutes: 60
-  },
-  {
-      classId: 2,
-      teacher: "Dr Simon Watson",
-      dateTime: "2023-06-15T03:30:00.000Z",
-      durationMinutes: 120
-  }
-]
- */
-
 function Timetable({handleLogout}) {
   const [ classes, setClasses ] = useState(null)
   const [ additionalClasses, setAdditionalClasses] = useState("")
