@@ -7,13 +7,13 @@
   --accent-color: #D81159;
 }
 
-html, body {
+html, body, div[id="root"] {
   height: 100vh;
-  width: 100vw;
   margin: 0;
   padding: 0;
 
   box-sizing: border-box;
+  font-size: 1rem;
 }
 
 nav {
@@ -25,20 +25,15 @@ nav {
 }
 
 ion-icon {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 /* Elements */
 
-.Class .card {
-  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
-}
-
 #App {
   min-height: 100vh; /*Width set to full viewport throught .container-fluid*/
-  background-image: url("../images/tim-mossholder-ShmRLyRv-S0-unsplash.jpg");
-  background-size:  contain;
-  background-repeat: round;
+  background-image: url("../images/pexels-johannes-plenio-1103970.jpg");
+  background-size:  cover;
 }
   #App aside { 
     position: fixed;
@@ -47,20 +42,35 @@ ion-icon {
   }
 
 #Timetable {
-  min-height: 75vh;
-  min-width: 75vw;
-  max-height: 75vh;
   max-width: 75vw;
 }
+  #Timetable .Loader {
+    margin-top: 5rem;
+  }
+  #Timetable .NoResults {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 3rem;
+    background-color: var(--secondary-color);
+    color: white;
+  }
 
 #Login {
-  min-height: 75vh;
-  min-width: 75vw;
-  max-height: 50vh;
   max-width: 75vw;
 }
   #Login form { 
     position: relative; 
+  }
+  #Login form :not(h1) { 
+    font-size: 1rem;
+  }
+
+.Class .card {
+  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+}
+
+.NoResults {
+  font-size: 2rem;
 }
 
 /* Modifiers */
@@ -100,7 +110,12 @@ ion-icon {
 
 /*Media Queries*/
 @media screen and (min-width: 0px) and (max-width: 576px) {
-  :root { font-size: 0.75rem; }
+  :root { 
+    font-size: 0.75rem; 
+  }
+  nav {
+    top: 7px; right: 7px;
+  }
 }
 
 @media screen and (min-width: 577px) and (max-width: 768px) {
@@ -108,12 +123,13 @@ ion-icon {
 }
 
 @media screen and (min-width: 769px) and (max-width: 1365px) {
-  :root { font-size: 1rem; }
+  :root { font-size: 0.88rem; }
 }
 
 @media screen and (min-width: 1366px) {
-  :root { font-size: 1.25rem; }
+  :root { font-size: 0.88rem; }
 }
+
 
 @media screen and (min-height: 0px) and (max-height: 300px) and (min-width: 1366px) {
   :root { font-size: 0.5rem; }
