@@ -2,27 +2,15 @@ import React, { useState, useEffect } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 function Class({classId, teacher, dateTime, durationMinutes, subject, maxStudents = null, location = null, isFirstClass = false, isEvenClass = null}) {
-    const getColorByDuration = function(durationMinutes) {
-        if(durationMinutes > 0 && durationMinutes <= 30) {
-            return "blue"
-        } 
-        else if(durationMinutes > 30 && durationMinutes <= 60) {
-            return "green"
-        }
-        else  {
-            return "red"
-        }
-    }
-    
     const getHeightByDuration = function() {
         if(durationMinutes > 0 && durationMinutes <= 30) {
-            return "h-25"
+            return "12rem"
         } 
         else if(durationMinutes > 30 && durationMinutes <= 60) {
-            return "h-50"
+            return "18rem"
         }
         else  {
-            return "h-100"
+            return "24rem"
         }
     }
 
@@ -42,10 +30,10 @@ function Class({classId, teacher, dateTime, durationMinutes, subject, maxStudent
     }
 
     try {
-        const classes = "Class col-12" + " " + getHeightByDuration() + (isFirstClass ? " mt-3" : "") + " mb-3 flex-column justify-content-center align-items-center"
+        const classes = "Class col-12" + (isFirstClass ? " mt-3" : "") + " mb-3 flex-column justify-content-center align-items-center"
 
         return (
-            <div className={classes}> 
+            <div className={classes} style={{ height: getHeightByDuration()}}> 
                 <div className="card w-100" style={{width: "18rem", height: "100%"}}>
                     <div className="card-header bg-secondary text-white">
                         <h5 className="card-title m-0">{subject}</h5>
