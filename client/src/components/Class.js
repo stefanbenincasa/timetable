@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
+import Tag from "./Tag";
+
 function Class({classId, teacher, dateTime, durationMinutes, subject, maxStudents = null, location = null, isFirstClass = false, isEvenClass = null}) {
     const getHeightByDuration = function() {
         if(durationMinutes > 0 && durationMinutes <= 30) {
@@ -38,11 +40,14 @@ function Class({classId, teacher, dateTime, durationMinutes, subject, maxStudent
                     <div className="card-header bg-secondary text-white">
                         <h5 className="card-title m-0">{subject}</h5>
                     </div>
-                    <div className={"card-body fs-6" + (isEvenClass ? " bg-secondary-subtle" : " bg-white")}>
-                        <p className="card-text mb-0">{teacher}</p>
-                        <p className="card-text mb-0">{location}</p>
-                        <p className="card-text mb-0">{getDisplayTime(dateTime)}</p>
-                        <p className="card-text mb-0">{getDisplayClassLength(durationMinutes)}</p>
+                    <div className={"card-body d-flex flex-column justify-content-between fs-6" + (isEvenClass ? " bg-secondary-subtle" : " bg-white")}>
+                        <div>
+                            <p className="card-text mb-0">{teacher}</p>
+                            <p className="card-text mb-0">{location}</p>
+                            <p className="card-text mb-0">{getDisplayTime(dateTime)}</p>
+                            <p className="card-text mb-0">{getDisplayClassLength(durationMinutes)}</p>
+                        </div>
+                        <Tag durationMinutes={durationMinutes} />
                     </div>
                 </div>
             </div>
