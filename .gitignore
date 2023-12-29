@@ -1,5 +1,6 @@
 server/node_modules
-server/src/config.js
+server/src/assets/config.ts
+server/build/assets/config.js
 
 client/node_modules
 client/coverage
