@@ -2,6 +2,7 @@ server/node_modules
 server/src/assets/config.ts
 server/build/assets/config.js
 server/build/config.js
+server/build/application/helpers/connection.js
 
 client/node_modules
 client/coverage
